@@ -7,23 +7,21 @@ import SideBar from "@/components/SideBar.vue";
 
 const store = useUserStore();
 let user_data = ref({
-  user: {
     email: "",
     password: "",
     password_confirmation: "",
-  },
 });
 
 let create_account = () => {
   console.log("create_account");
   // here check if password and password_confirmation are the same
-  if (user_data.value.user.password !== user_data.value.user.password_confirmation) {
+  if (user_data.value.password !== user_data.value.password_confirmation) {
     console.log("passwords don't match");
     return;
   }
 
-  delete user_data.value.user.password_confirmation;
-  axios.post("http://localhost:3000/users", user_data.value)
+  delete user_data.value.password_confirmation;
+  axios.post("http://localhost:3000/users", { "user": user_data.value })
     .then((response) => {
       console.log(response);
       store.setUser(response.data);
@@ -49,15 +47,15 @@ onMounted(() => {
     <h1 class="text-4xl text-center font-bold pt-4">Registration</h1>
     <form @submit.prevent="create_account()" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
       <div class="pb-2 pt-4">
-        <input v-model="user_data.user.email" type="email"
+        <input v-model="user_data.email" type="email"
                name="email" id="email" placeholder="Email" class="block w-full p-4 rounded-sm bg-primary text-secondary">
       </div>
       <div class="pb-2 pt-4">
-        <input v-model="user_data.user.password" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
+        <input v-model="user_data.password" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
                name="password" id="password" placeholder="Password">
       </div>
       <div class="pb-2 pt-4">
-        <input v-model="user_data.user.password_confirmation" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
+        <input v-model="user_data.password_confirmation" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
                name="password" id="password_repeat" placeholder="Repeat password">
       </div>
       <div class="px-4 pb-2 pt-4">

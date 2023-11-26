@@ -8,7 +8,7 @@ const store = useUserStore();
 let logout = () => {
   axios.post("http://localhost:3000/api/logout", store.user).then((response) => {
     console.log(response);
-    store.setUser(null);
+    store.logout();
     router.push("/login");
   }).catch((error) => {
     console.log(error);
