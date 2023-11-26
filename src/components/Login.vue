@@ -15,7 +15,7 @@ let login = () => {
   axios.post("http://localhost:3000/api/login", login_data.value)
     .then((response) => {
       console.log(response);
-      store.setUser(response.data);
+      store.setUser(response.data.user);
       router.push("/");
     })
     .catch((error) => {
@@ -25,7 +25,7 @@ let login = () => {
 
 onMounted(() => {
   if (store.user !== null) {
-    router.push("/home");
+    router.push("/");
   }
 });
 </script>
