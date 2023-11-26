@@ -13,7 +13,7 @@ const routes = [
     {
         path: "/login",
         name: "Login",
-        component: () => import("@/components/Login.vue"),
+        component: () => import("@/components/LoginForm.vue"),
         meta: {
             authRequired: false,
         },
@@ -21,7 +21,7 @@ const routes = [
     {
         path: "/register",
         name: "Register",
-        component: () => import("@/components/Register.vue"),
+        component: () => import("@/components/RegistrationForm.vue"),
         meta: {
             authRequired: false,
         },
@@ -49,11 +49,9 @@ router.beforeEach((to, from, next) => {
                 path: "/login",
             });
         } else {
-            userStore.setRouteFromBefore(from);
             next();
         }
     } else {
-        userStore.setRouteFromBefore(from);
         next();
     }
 });
