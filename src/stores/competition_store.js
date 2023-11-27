@@ -24,6 +24,13 @@ export const useCompetitionStore = defineStore('competition', {
             }).catch(error => {
                 console.log(error);
             })
+        },
+        async fetchTeams(competitionId) {
+            axios.get('http://localhost:3000/api/competitions/' + competitionId + '/teams').then(response => {
+                this.setTeams(response.data);
+            }).catch(error => {
+                console.log(error);
+            });
         }
     }
 });

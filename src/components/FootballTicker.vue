@@ -11,17 +11,8 @@ const userStore = useUserStore();
 
 // data
 let show_modal = ref(false);
-let matches = ref([
-  {
-    id: 1,
-    team_home: {
-      name: "Bayern"
-    },
-    team_away: {
-      name: "Dortmund"
-    }
-  }
-])
+let matches = ref([]);
+let selected_matches = ref([]);
 
 // methods
 let openModal = () => {
@@ -58,14 +49,12 @@ let createTicker = () => {
       <template #header>
         <div class="flex flex-row items-center space-x-2">
           <span>Neuen Ticker erstellen</span>
-          <span class="text-2xl">+</span>
         </div>
       </template>
       <template #body>
         <div class="flex flex-col space-y-2">
           <ul>
             <li v-for="match in matches" :key="match.id">
-              {{ match.team_home.name }} - {{ match.team_away.name }}
             </li>
           </ul>
         </div>

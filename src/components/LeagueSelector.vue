@@ -12,7 +12,8 @@ let selected_competition = ref(-1);
 
 // watch
 watch(selected_competition, (newValue) => {
-  emit("changed_competition", newValue);
+  // emit("changed_competition", newValue);
+  store.fetchTeams(newValue);
 });
 
 onMounted(() => {
