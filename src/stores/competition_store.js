@@ -6,15 +6,11 @@ export const useCompetitionStore = defineStore('competition', {
         competitions: [],
         teams: [],
         players: [],
-        selected_competition: null,
     }),
     persist: true,
     actions: {
         setCompetitions(competitions) {
             this.competitions = competitions;
-        },
-        setCompetition(competition) {
-            this.selected_competition = competition;
         },
         setTeams(teams) {
             this.teams = teams;
