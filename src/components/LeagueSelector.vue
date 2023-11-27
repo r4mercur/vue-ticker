@@ -12,12 +12,12 @@ let selected_competition = ref(-1);
 
 // watch
 watch(selected_competition, (newValue) => {
-  // emit("changed_competition", newValue);
+  emit("changed_competition", newValue);
   store.fetchTeams(newValue);
 });
 
 onMounted(() => {
-  store.fetchCompetitions().then((response) => {
+  store.fetchCompetitions().then(() => {
     // set selected competition to first competition
     selected_competition.value = store.competitions[0].id;
   }).catch((error) => {

@@ -5,6 +5,7 @@ import { useUserStore } from "@/stores/user_store.js";
 import { useCompetitionStore } from "@/stores/competition_store.js";
 import Modal from "@/components/Modal.vue";
 import {ref} from "vue";
+import axios from "axios";
 
 const competitionStore = useCompetitionStore();
 const userStore = useUserStore();
@@ -13,13 +14,24 @@ const userStore = useUserStore();
 let show_modal = ref(false);
 let matches = ref([]);
 let selected_matches = ref([]);
+let selected_competition = ref();
 
 // methods
-let openModal = () => {
-  show_modal.value = true;
+let fetchGamesByCompetitionId = (competition_id) => {
+  axios.get(`http://localhost:3000/api/competitions/${competition_id}/games`).then((response) => {
+    matches.value = response.data;
+  }).catch((error) => {
+    console.log(error);
+  });
 };
-let retrieve_matches_from_competition = (competition_id) => {
-  console.log("new competition ", competition_id);
+let openModal = () => {
+  if (selected_competition.value !== undefined) {
+    show_modal.value = true;
+    fetchGamesByCompetitionId(selected_competition.value);
+  }
+};
+let retrieve_competition_id = (competition_id) => {
+  selected_competition.value = competition_id;
 };
 let createTicker = () => {
   console.log("create ticker");
@@ -34,7 +46,7 @@ let createTicker = () => {
 
   <!-- content -->
   <div class="mt-16 mx-4 space-y-4 flex flex-col">
-    <LeagueSelector @changed_competition="retrieve_matches_from_competition" />
+    <LeagueSelector @changed_competition="retrieve_competition_id" />
 
     <div class="m-auto">
       <button @click="openModal" type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600
@@ -55,6 +67,7 @@ let createTicker = () => {
         <div class="flex flex-col space-y-2">
           <ul>
             <li v-for="match in matches" :key="match.id">
+              {{ match.team_home.name }} - {{ match.team_away.name }}
             </li>
           </ul>
         </div>
