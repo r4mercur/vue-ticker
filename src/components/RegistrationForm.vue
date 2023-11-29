@@ -12,7 +12,7 @@ let user_data = ref({
     password_confirmation: "",
 });
 
-let create_account = () => {
+let createAccount = () => {
   console.log("create_account");
   // here check if password and password_confirmation are the same
   if (user_data.value.password !== user_data.value.password_confirmation) {
@@ -45,7 +45,7 @@ onMounted(() => {
   <!-- content -->
   <div v-if="store.user === null" class="mt-16">
     <h1 class="text-4xl text-center font-bold pt-4">Registration</h1>
-    <form @submit.prevent="create_account()" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+    <form @submit.prevent="createAccount()" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
       <div class="pb-2 pt-4">
         <input v-model="user_data.email" type="email"
                name="email" id="email" placeholder="Email" class="block w-full p-4 rounded-sm bg-primary text-secondary">
