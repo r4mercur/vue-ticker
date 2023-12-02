@@ -5,6 +5,9 @@ import Modal from "@/components/Modal.vue";
 import {ref} from "vue";
 import axios from "axios";
 import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
+import user_store from "@/stores/user_store.js";
+
+const user = user_store();
 
 // data
 let show_modal = ref(false);
@@ -31,6 +34,23 @@ let retrieveCompetitionId = (competition_id) => {
 };
 let createTicker = () => {
   console.log("create ticker");
+  if (selected_matches.value.length === 0) {
+    console.log("no matches selected");
+    return;
+  } else {
+    selected_matches.value.forEach((match) => {
+      axios.post("http://localhost:3000/tickers", {
+        "ticker": {
+          "match_id": match.id,
+          "user_id": user.user.id,
+        }
+      }).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.log(error);
+      });
+    })
+  }
   show_modal.value = false;
 };
 let addOrRemoveToSelected = (match) => {
