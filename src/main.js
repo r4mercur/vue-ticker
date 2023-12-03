@@ -8,9 +8,9 @@ import router from './router'
 // icons
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    CoAccountLogout } from "oh-vue-icons/icons";
+    HiShieldCheck, CoAccountLogout } from "oh-vue-icons/icons";
 addIcons(IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    CoAccountLogout);
+    CoAccountLogout, HiShieldCheck);
 
 // state tool
 const pinia = createPinia();

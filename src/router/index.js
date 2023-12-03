@@ -11,6 +11,14 @@ const routes = [
         },
     },
     {
+        path: "/teams",
+        name: "Teams",
+        component: () => import("@/views/TeamView.vue"),
+        meta: {
+            authRequired: true,
+        },
+    },
+    {
         path: "/login",
         name: "Login",
         component: () => import("@/components/LoginForm.vue"),
