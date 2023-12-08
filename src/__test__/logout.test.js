@@ -47,7 +47,6 @@ test("Logout function __test__", async () => {
 
   const sidebarIcons = wrapper.findAllComponents({ name: 'side-bar-icon' });
   const logoutButton = sidebarIcons[sidebarIcons.length - 1];
-  // const logoutButton = wrapper.find('#logout'); // Assuming the logout button has id 'logout'
   await logoutButton.trigger("click");
 
   expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/api/logout", user);
