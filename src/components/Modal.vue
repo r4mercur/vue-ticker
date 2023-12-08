@@ -25,14 +25,12 @@ const props = defineProps({
           <div class="modal__footer">
             <slot name="footer">
               <div class="flex flex-col items-center">
-                <button @click="emit('confirm')" type="button" class="m-auto text-gray-900 bg-gradient-to-r from-lime-200
-                  via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300
-                  dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium
-                  rounded-lg text-sm px-5 py-2.5 text-center w-auto">
-                  {{ props.text }}
+                <button @click="emit('confirm')" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+                  <span class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    {{ props.text }}
+                  </span>
                 </button>
               </div>
-
             </slot>
           </div>
         </div>
@@ -83,7 +81,7 @@ $breakpoint-lg: 1200px;
     border-radius: 12px 12px 0 0;
 
     @media screen and (min-width: $breakpoint-sm) {
-      width: 576px;
+      width: 1000px;
       max-height: calc(100vh - 128px);
       margin: 0px auto;
       border-radius: 12px;

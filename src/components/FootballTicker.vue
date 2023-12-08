@@ -72,10 +72,10 @@ let addOrRemoveToSelected = (match) => {
     <LeagueSelector @changed_competition="retrieveCompetitionId" />
 
     <div class="m-auto">
-      <button @click="openModal" type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600
-        to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg
-        shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-        Ticker erstellen
+      <button @click="openModal" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Ticker anlegen
+        </span>
       </button>
     </div>
 
@@ -87,34 +87,43 @@ let addOrRemoveToSelected = (match) => {
         </div>
       </template>
       <template #body>
-        <div class="flex flex-col space-y-2">
-          <ul>
-            <li v-for="match in matches" :key="match.id" class="p-6" @click="addOrRemoveToSelected(match)">
-              <span class="whitespace-nowrap text-center">
-                  {{ formatDateToGermanTimeFormat(match.date, true) }}
+        <!-- list of matches -->
+        <div v-for="match in matches" :key="match.id" class="shadow-md m-6 mb-8 p-6 cursor-pointer">
+          <!-- date -->
+          <div class="text-center mb-0.5 p6">
+            <span class="whitespace-nowrap text-center font-bold text-primary">
+                {{ formatDateToGermanTimeFormat(match.date, true) }}
+            </span>
+          </div>
+
+          <!-- grid -->
+          <div class="grid grid-cols-7 pr-12 pl-12" @click="addOrRemoveToSelected(match)">
+            <div class="col-span-2 m-auto text-center pt-4">
+              <span class="text-primary">
+                {{ match.team_home.name }}
               </span>
-              <div class="flex flex-row items-center space-x-2">
-                <img :src="'http://localhost:3000/images/team_' + match.team_home_id + '.png'" class="w-18 h-18" :alt="match.team_home.name">
-                <span class="flex-nowrap">
-                  <template v-if="match.team_home.shortname">
-                    {{ match.team_home.shortname }}
-                  </template>
-                  <template v-else>
-                    {{ match.team_home.name }}
-                  </template>
-                  -
-                  <template v-if="match.team_away.shortname">
-                    {{ match.team_away.shortname }}
-                  </template>
-                  <template v-else>
-                    {{ match.team_away.name }}
-                  </template>
-                </span>
-                <img :src="'http://localhost:3000/images/team_' + match.team_away_id + '.png'" class="w-18 h-18" :alt="match.team_away.name">
-              </div>
-            </li>
-          </ul>
+            </div>
+            <div>
+              <img :src="'http://localhost:3000/images/team_' + match.team_home_id + '.png'" class="w-18 h-18" :alt="match.team_home.name">
+            </div>
+            <div class="text-center m-auto">
+              <span class="font-bold text-primary">
+                vs.
+              </span>
+            </div>
+            <div>
+              <img :src="'http://localhost:3000/images/team_' + match.team_away_id + '.png'" class="w-18 h-18" :alt="match.team_away.name">
+            </div>
+            <div class="col-span-2 m-auto text-center">
+              <span class="text-primary">
+                {{ match.team_away.name }}
+              </span>
+            </div>
+          </div>
         </div>
+
+
+
       </template>
     </Modal>
   </div>
