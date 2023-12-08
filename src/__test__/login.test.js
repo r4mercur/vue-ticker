@@ -4,6 +4,7 @@ import axios from "axios";
 import router from '@/router/index.js';
 import { vitest } from "vitest";
 import { createPinia } from "pinia";
+import { user } from "../helpers/test.js";
 
 
 vitest.mock("axios")
@@ -22,7 +23,7 @@ test("Login function __test__", async () => {
   await wrapper.find('#email').setValue("bjarne.braeuer@gmx.de");
   await wrapper.find('#password').setValue("start");
 
-  axios.post.mockResolvedValueOnce({ data: { user: "User data" } });
+  axios.post.mockResolvedValueOnce({ data: { status: "Logged in successfully", user: user } });
 
   await wrapper.find("form").trigger("submit.prevent");
   await flushPromises();
@@ -30,7 +31,7 @@ test("Login function __test__", async () => {
   expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/api/login", {
     email: "bjarne.braeuer@gmx.de",
     password: "start"
-  });
+  })
 
   expect(router.push).toHaveBeenCalledWith("/");
 });

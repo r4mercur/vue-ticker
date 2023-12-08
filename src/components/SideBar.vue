@@ -39,7 +39,7 @@ let logout = () => {
       <side-bar-icon :icon="'gi-hockey'" :text="'Hockey 💡'" />
     </router-link>
 
-    <side-bar-icon class="fixed right-0" :icon="'co-account-logout'" :text="'Logout 💡'" @click="logout()" />
+    <side-bar-icon id="logout" class="fixed right-0" :icon="'co-account-logout'" :text="'Logout 💡'" @click="logout()" />
   </div>
 
   <div v-else class="fixed top-0 left-0 w-screen m-auto
