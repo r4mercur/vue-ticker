@@ -80,7 +80,25 @@ let saveTeam = () => {
       console.log(error);
     });
   }
-}
+};
+let uploadTeamLogo = (event) => {
+  if (!modal_team.value.id) {
+    return;
+  }
+
+  let reader = new FileReader();
+  let file = event.target.files[0];
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    axios.post(`http://localhost:3000/api/teams/${modal_team.value.id}/upload_logo`, {
+      "id": modal_team.value.id,
+      "logo": reader.result,
+    }).then(() => {
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+};
 
 // computed
 let teams_with_ids = computed(() => {
@@ -118,6 +136,7 @@ onMounted(() => {
         <thead>
           <tr>
             <th class="border border-slate-700">Id</th>
+            <th class="border border-slate-700">Logo</th>
             <th class="border border-slate-700 text-left pl-2">Name</th>
             <th class="border border-slate-700 text-left pl-2">Abkürzung</th>
             <th class="border border-r-0 border-slate-700">Erstellt</th>
@@ -128,6 +147,9 @@ onMounted(() => {
         <tbody>
           <tr v-for="team in teams_with_ids" :key="team.id">
             <td class="border border-slate-500 text-center">{{ team.id }}</td>
+            <td class="border border-slate-500 text-center">
+              <img :src="'http://localhost:3000/images/team_' + team.id + '.png'" class="w-16 h-16 m-auto" alt="" />
+            </td>
             <td class="border border-slate-500 pl-2">{{ team.name }}</td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>
             <td class="border border-slate-500 text-center">{{ team.created_at }}</td>
@@ -179,6 +201,11 @@ onMounted(() => {
         <div class="flex flex-col space-y-2">
           <label for="shortname">Abkürzung</label>
           <input v-model="modal_team.shortname" type="text" id="shortname" name="shortname" class="border border-slate-500 rounded-md p-2" />
+        </div>
+        <div v-if="modal_team.id" class="flex flex-col space-y-2">
+          <label for="logo">Teamlogo</label>
+          <input type="file" id="logo" name="logo" class="border border-slate-500 rounded-md p-2" accept="image/*"
+                v-on:change="uploadTeamLogo"/>
         </div>
       </div>
     </template>
