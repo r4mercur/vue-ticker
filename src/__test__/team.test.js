@@ -12,6 +12,7 @@ test("TeamView function __test__", async () => {
 
     // Mock axios
     axios.get.mockResolvedValueOnce({ data: [] });
+    axios.post.mockResolvedValueOnce({ status: 201 });
 
     const pinia = createPinia();
     const wrapper = mount(TeamView, {
@@ -26,14 +27,14 @@ test("TeamView function __test__", async () => {
 
     await wrapper.find("#name").setValue("Test Team");
     await wrapper.find("#shortname").setValue("TT");
-
-    // here click the submit button with the id #save and then check if axios.post was called with the correct data
+    
     await wrapper.find("#save").trigger("click");
-    expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/api/teams", {
-        name: "Test Team",
-        shortname: "TT",
+    expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/teams", {
+        team: {
+            name: "Test Team",
+            shortname: "TT",
+        },
     });
 
     await flushPromises();
-
 });

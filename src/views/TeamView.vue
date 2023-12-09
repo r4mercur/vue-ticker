@@ -1,6 +1,6 @@
 <script setup>
 import BackendSideBar from "@/components/BackendSideBar.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed} from "vue";
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
 
@@ -82,6 +82,23 @@ let saveTeam = () => {
   }
 }
 
+// computed
+let teams_with_ids = computed(() => {
+  if (!teams.value) {
+    return [];
+  }
+
+  return teams.value.map((team) => {
+    if (team && team.id) {
+      return {
+        ...team,
+        "id": team.id,
+      };
+    } else {
+      return [];
+    }
+  });
+});
 
 onMounted(() => {
   axios.get("http://localhost:3000/teams").then((response) => {
@@ -109,7 +126,7 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="team in teams" :key="team.id">
+          <tr v-for="team in teams_with_ids" :key="team.id">
             <td class="border border-slate-500 text-center">{{ team.id }}</td>
             <td class="border border-slate-500 pl-2">{{ team.name }}</td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>
