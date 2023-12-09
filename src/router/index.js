@@ -19,6 +19,14 @@ const routes = [
         },
     },
     {
+        path: "/competitions",
+        name: "Competitions",
+        component: () => import("@/views/CompetitionView.vue"),
+        meta: {
+            authRequired: true,
+        },
+    },
+    {
         path: "/login",
         name: "Login",
         component: () => import("@/components/LoginForm.vue"),

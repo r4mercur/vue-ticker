@@ -53,12 +53,15 @@ let saveTeam = () => {
         "shortname": modal_team.value.shortname,
       }
     }).then((response) => {
-      teams.value = teams.value.map((team) => {
-        if (team.id === modal_team.value.id) {
-          return response.data;
-        }
-        return team;
-      });
+      if (response.status === 200) {
+        teams.value = teams.value.map((team) => {
+          if (team.id === modal_team.value.id) {
+            return response.data;
+          }
+          return team;
+        });
+        show_modal.value = false;
+      }
     }).catch((error) => {
       console.log(error);
     });
@@ -113,14 +116,14 @@ onMounted(() => {
             <td class="border border-slate-500 text-center">{{ team.created_at }}</td>
             <td class="border border-r-0 border-slate-500">
               <div class="flex flex-col space-y-1 m-auto">
-                <button class="w-1/2 mt-1 mb-1 m-auto bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold py-2 px-3 rounded-full text-center" @click="editTeam(team)">
+                <button :id="'team_edit' + team.id" class="w-1/2 mt-1 mb-1 m-auto bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold py-2 px-3 rounded-full text-center" @click="editTeam(team)">
                   <v-icon name="md-modeedit-outlined" />
                 </button>
               </div>
             </td>
             <td class="border border-l-0 border-slate-500">
               <div class="flex flex-col space-y-1 m-auto">
-                <button class="w-1/2 mt-1 mb-1 m-auto bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold py-2 px-3 rounded-full text-center" @click="deleteTeam(team.id)">
+                <button :id="'team_delete' + team.id" class="w-1/2 mt-1 mb-1 m-auto bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold py-2 px-3 rounded-full text-center" @click="deleteTeam(team.id)">
                   <v-icon name="md-delete-outlined" />
                 </button>
               </div>
@@ -131,7 +134,7 @@ onMounted(() => {
           <tr>
             <td>
               <div class="flex flex-col space-y-1 m-auto">
-                <button @click="addTeam" class="w-full p-2 m-2 bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold rounded-full">
+                <button id="team_add" @click="addTeam" class="w-full p-2 m-2 bg-gradient-to-br from-teal-300 to-lime-300 text-white font-bold rounded-full">
                   Hinzufügen
                 </button>
               </div>
@@ -146,11 +149,12 @@ onMounted(() => {
   <Modal v-if="show_modal" @close="resetModal" @confirm="saveTeam" :text="'Speichern'">
     <template #header>
       <div class="flex flex-row items-center space-x-2">
-        <span>Neues Team erstellen</span>
+        <span v-if="modal_team.id">Team editieren</span>
+        <span v-else>Neues Team erstellen</span>
       </div>
     </template>
     <template #body>
-      <div class="flex flex-col space-y-4">
+      <div id="modal" class="flex flex-col space-y-4">
         <div class="flex flex-col space-y-2">
           <label for="name">Name</label>
           <input v-model="modal_team.name" type="text" id="name" name="name" class="border border-slate-500 rounded-md p-2" />
