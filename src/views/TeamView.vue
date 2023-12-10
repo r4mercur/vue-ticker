@@ -103,6 +103,13 @@ let uploadTeamLogo = (event) => {
 };
 
 // computed
+let modal_text = computed(() => {
+  if (modal_team.value.id) {
+    return "Speichern";
+  } else {
+    return "Erstellen";
+  }
+});
 let teams_with_ids = computed(() => {
   if (!teams.value) {
     return [];
@@ -187,7 +194,7 @@ onMounted(() => {
   </div>
 
   <!-- modal -->
-  <Modal v-if="show_modal" @close="resetModal" @confirm="saveTeam" :text="'Speichern'">
+  <Modal v-if="show_modal" @close="resetModal" @confirm="saveTeam" :text="modal_text">
     <template #header>
       <div class="flex flex-row items-center space-x-2">
         <span v-if="modal_team.id">Team editieren</span>

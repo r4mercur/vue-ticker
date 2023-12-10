@@ -31,6 +31,33 @@ export const useCompetitionStore = defineStore('competition', {
             }).catch(error => {
                 console.log(error);
             });
-        }
+        },
+        async deleteCompetition(competitionId) {
+            axios.delete('http://localhost:3000/competitions/' + competitionId).then(response => {
+                if(response.status === 200) {
+                    this.fetchCompetitions();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        async createCompetition(competition) {
+            axios.post('http://localhost:3000/competitions', competition).then(response => {
+                if(response.status === 201) {
+                    this.fetchCompetitions();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        async updateCompetition(competition) {
+            axios.put('http://localhost:3000/competitions/' + competition.id, competition).then(response => {
+                if(response.status === 200) {
+                    this.fetchCompetitions();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
     }
 });

@@ -18,6 +18,9 @@ onMounted(() => {
     <router-link to="/teams">
       <side-bar-icon icon="hi-shield-check" text="Teams 💡" />
     </router-link>
+    <router-link to="/competitions">
+      <side-bar-icon icon="hi-shield-check" text="Competitions 💡" />
+    </router-link>
   </div>
 </template>
 
