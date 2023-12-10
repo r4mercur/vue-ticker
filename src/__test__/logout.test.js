@@ -5,6 +5,9 @@ import router from "@/router/index.js";
 import { nextTick } from "vue";
 import HomeView from "@/views/HomeView.vue";
 import { user } from "@/helpers/test.js";
+import { api_information } from "@/stores/index.js";
+
+const url = api_information.url;
 
 vitest.mock("axios");
 vitest.mock("@/router/index.js");
@@ -49,6 +52,6 @@ test("Logout function __test__", async () => {
   const logoutButton = sidebarIcons[sidebarIcons.length - 1];
   await logoutButton.trigger("click");
 
-  expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/api/logout", user);
+  expect(axios.post).toHaveBeenCalledWith(url + "/api/logout", user);
   expect(router.push).toHaveBeenCalledWith("/login");
 });

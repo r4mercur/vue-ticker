@@ -3,7 +3,9 @@ import BackendSideBar from "@/components/BackendSideBar.vue";
 import {onMounted, ref, computed} from "vue";
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
+import { api_information } from "@/stores/index.js";
 
+const url = api_information.url;
 let teams = ref();
 let show_modal = ref(false);
 let modal_team = ref();
@@ -37,7 +39,7 @@ let deleteTeam = (team_id) => {
     return;
   }
 
-  axios.delete(`http://localhost:3000/teams/${team_id}`).then((response) => {
+  axios.delete(url + `/teams/${team_id}`).then((response) => {
     if (response.status === 204) {
       teams.value = teams.value.filter((team) => team.id !== team_id);
     }
@@ -48,7 +50,7 @@ let deleteTeam = (team_id) => {
 
 let saveTeam = () => {
   if (modal_team.value.id) {
-    axios.put(`http://localhost:3000/teams/${modal_team.value.id}`, {
+    axios.put(url + `/teams/${modal_team.value.id}`, {
       "team": {
         "name": modal_team.value.name,
         "shortname": modal_team.value.shortname,
@@ -67,7 +69,7 @@ let saveTeam = () => {
       console.log(error);
     });
   } else {
-    axios.post("http://localhost:3000/teams", {
+    axios.post(url + "/teams", {
       "team": {
         "name": modal_team.value.name,
         "shortname": modal_team.value.shortname,
@@ -91,7 +93,7 @@ let uploadTeamLogo = (event) => {
   let file = event.target.files[0];
   reader.readAsDataURL(file);
   reader.onload = () => {
-    axios.post(`http://localhost:3000/api/teams/${modal_team.value.id}/upload_logo`, {
+    axios.post(url + `/api/teams/${modal_team.value.id}/upload_logo`, {
       "id": modal_team.value.id,
       "logo": reader.result,
     }).then(() => {
@@ -128,7 +130,7 @@ let teams_with_ids = computed(() => {
 });
 
 onMounted(() => {
-  axios.get("http://localhost:3000/teams").then((response) => {
+  axios.get(url + "/teams").then((response) => {
     teams.value = response.data;
   }).catch((error) => {
     console.log(error);
@@ -157,7 +159,7 @@ onMounted(() => {
           <tr v-for="team in teams_with_ids" :key="team.id">
             <td class="border border-slate-500 text-center">{{ team.id }}</td>
             <td class="border border-slate-500 text-center">
-              <img :src="'http://localhost:3000/images/team_' + team.id + '.png?' + image_update_key" class="w-16 h-16 m-auto" alt="" />
+              <img :src="url + '/images/team_' + team.id + '.png?' + image_update_key" class="w-16 h-16 m-auto" alt="" />
             </td>
             <td class="border border-slate-500 pl-2">{{ team.name }}</td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>

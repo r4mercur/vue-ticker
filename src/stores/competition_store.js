@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { api_information } from "@/stores/index.js";
+
+const url = api_information.url;
 
 export const useCompetitionStore = defineStore('competition', {
     state: () => ({
@@ -19,21 +22,21 @@ export const useCompetitionStore = defineStore('competition', {
             this.players = players;
         },
         async fetchCompetitions() {
-            axios.get('http://localhost:3000/competitions').then(response => {
+            axios.get(url + '/competitions').then(response => {
                 this.setCompetitions(response.data);
             }).catch(error => {
                 console.log(error);
             })
         },
         async fetchTeamsByCompetitionId(competitionId) {
-            axios.get('http://localhost:3000/api/competitions/' + competitionId + '/teams').then(response => {
+            axios.get(url + '/api/competitions/' + competitionId + '/teams').then(response => {
                 this.setTeams(response.data);
             }).catch(error => {
                 console.log(error);
             });
         },
         async deleteCompetition(competitionId) {
-            axios.delete('http://localhost:3000/competitions/' + competitionId).then(response => {
+            axios.delete(url + '/competitions/' + competitionId).then(response => {
                 if(response.status === 200) {
                     this.fetchCompetitions();
                 }
@@ -42,7 +45,7 @@ export const useCompetitionStore = defineStore('competition', {
             });
         },
         async createCompetition(competition) {
-            axios.post('http://localhost:3000/competitions', competition).then(response => {
+            axios.post(url + '/competitions', competition).then(response => {
                 if(response.status === 201) {
                     this.fetchCompetitions();
                 }
@@ -51,7 +54,7 @@ export const useCompetitionStore = defineStore('competition', {
             });
         },
         async updateCompetition(competition) {
-            axios.put('http://localhost:3000/competitions/' + competition.id, competition).then(response => {
+            axios.put(url + '/competitions/' + competition.id, competition).then(response => {
                 if(response.status === 200) {
                     this.fetchCompetitions();
                 }

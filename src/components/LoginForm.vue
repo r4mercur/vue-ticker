@@ -4,7 +4,10 @@ import { useUserStore } from "@/stores/user_store.js";
 import router from "../router/index.js";
 import axios from "axios";
 import SideBar from "@/components/SideBar.vue";
+import {api_information} from "@/stores/index.js"
+
 const store = useUserStore();
+const url = api_information.url;
 
 let login_data = ref({
   email: "",
@@ -12,7 +15,7 @@ let login_data = ref({
 });
 let login = () => {
   console.log("login");
-  axios.post("http://localhost:3000/api/login", login_data.value)
+  axios.post(url + "/api/login", login_data.value)
     .then((response) => {
       console.log(response);
       store.setUser(response.data.user);

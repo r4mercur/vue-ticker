@@ -5,7 +5,9 @@ import router from '@/router/index.js';
 import { vitest } from "vitest";
 import { createPinia } from "pinia";
 import { user } from "../helpers/test.js";
+import { api_information } from "@/stores/index.js";
 
+const url = api_information.url;
 
 vitest.mock("axios")
 vitest.mock("../router/index.js")
@@ -28,7 +30,7 @@ test("Login function __test__", async () => {
   await wrapper.find("form").trigger("submit.prevent");
   await flushPromises();
 
-  expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/api/login", {
+  expect(axios.post).toHaveBeenCalledWith(url + "/api/login", {
     email: "bjarne.braeuer@gmx.de",
     password: "start"
   })

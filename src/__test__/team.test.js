@@ -3,6 +3,9 @@ import { vitest } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import axios from "axios";
 import {createPinia} from "pinia";
+import { api_information } from "@/stores/index.js";
+
+const url = api_information.url;
 
 vitest.mock("axios");
 vitest.mock("@/router/index.js");
@@ -29,7 +32,7 @@ test("TeamView function __test__", async () => {
     await wrapper.find("#shortname").setValue("TT");
     
     await wrapper.find("#save").trigger("click");
-    expect(axios.post).toHaveBeenCalledWith("http://localhost:3000/teams", {
+    expect(axios.post).toHaveBeenCalledWith(url + "/teams", {
         team: {
             name: "Test Team",
             shortname: "TT",

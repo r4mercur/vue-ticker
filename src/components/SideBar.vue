@@ -3,10 +3,13 @@ import SideBarIcon from "./SideBarIcon.vue";
 import useUserStore from "@/stores/user_store.js";
 import router from "../router/index.js";
 import axios from "axios";
+import { api_information } from "@/stores/index.js";
+
+const url = api_information.url;
 const store = useUserStore();
 
 let logout = () => {
-  axios.post("http://localhost:3000/api/logout", store.user).then((response) => {
+  axios.post(url + "/api/logout", store.user).then((response) => {
     console.log(response);
     store.logout();
     router.push("/login");

@@ -6,8 +6,10 @@ import {ref} from "vue";
 import axios from "axios";
 import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
 import user_store from "@/stores/user_store.js";
+import { api_information } from "@/stores/index.js";
 
 const user = user_store();
+const url = api_information.url;
 
 // data
 let show_modal = ref(false);
@@ -17,7 +19,7 @@ let selected_competition = ref();
 
 // methods
 let fetchGamesByCompetitionId = (competition_id) => {
-  axios.get(`http://localhost:3000/api/competitions/${competition_id}/games`).then((response) => {
+  axios.get(url + `/api/competitions/${competition_id}/games`).then((response) => {
     matches.value = response.data;
   }).catch((error) => {
     console.log(error);
@@ -39,7 +41,7 @@ let createTicker = () => {
     return;
   } else {
     selected_matches.value.forEach((match) => {
-      axios.post("http://localhost:3000/tickers", {
+      axios.post(url + "/tickers", {
         "ticker": {
           "match_id": match.id,
           "user_id": user.user.id,
@@ -104,7 +106,7 @@ let addOrRemoveToSelected = (match) => {
               </span>
             </div>
             <div>
-              <img :src="'http://localhost:3000/images/team_' + match.team_home_id + '.png'" class="w-18 h-18" :alt="match.team_home.name">
+              <img :src="url + '/images/team_' + match.team_home_id + '.png'" class="w-18 h-18" :alt="match.team_home.name">
             </div>
             <div class="text-center m-auto">
               <span class="font-bold text-primary">
@@ -112,7 +114,7 @@ let addOrRemoveToSelected = (match) => {
               </span>
             </div>
             <div>
-              <img :src="'http://localhost:3000/images/team_' + match.team_away_id + '.png'" class="w-18 h-18" :alt="match.team_away.name">
+              <img :src="url + '/images/team_' + match.team_away_id + '.png'" class="w-18 h-18" :alt="match.team_away.name">
             </div>
             <div class="col-span-2 m-auto text-center">
               <span class="text-primary">
