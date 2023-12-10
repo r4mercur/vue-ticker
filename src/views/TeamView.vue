@@ -7,6 +7,7 @@ import Modal from "@/components/Modal.vue";
 let teams = ref();
 let show_modal = ref(false);
 let modal_team = ref();
+let image_update_key = ref(0);
 
 // methods
 let resetModal = () => {
@@ -94,6 +95,7 @@ let uploadTeamLogo = (event) => {
       "id": modal_team.value.id,
       "logo": reader.result,
     }).then(() => {
+      image_update_key.value = Date.now();
     }).catch((error) => {
       console.log(error);
     });
@@ -148,7 +150,7 @@ onMounted(() => {
           <tr v-for="team in teams_with_ids" :key="team.id">
             <td class="border border-slate-500 text-center">{{ team.id }}</td>
             <td class="border border-slate-500 text-center">
-              <img :src="'http://localhost:3000/images/team_' + team.id + '.png'" class="w-16 h-16 m-auto" alt="" />
+              <img :src="'http://localhost:3000/images/team_' + team.id + '.png?' + image_update_key" class="w-16 h-16 m-auto" alt="" />
             </td>
             <td class="border border-slate-500 pl-2">{{ team.name }}</td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>
