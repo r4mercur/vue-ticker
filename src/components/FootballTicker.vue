@@ -62,6 +62,13 @@ let addOrRemoveToSelected = (match) => {
     selected_matches.value.push(match);
   }
 };
+let setCSSClass = (match) => {
+  if (selected_matches.value.includes(match)) {
+    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg checked";
+  } else {
+    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg";
+  }
+};
 
 </script>
 
@@ -90,7 +97,7 @@ let addOrRemoveToSelected = (match) => {
       </template>
       <template #body>
         <!-- list of matches -->
-        <div v-for="match in matches" :key="match.id" class="shadow-md m-6 mb-8 p-6 cursor-pointer">
+        <div v-for="match in matches" :key="match.id" :class="setCSSClass(match)">
           <!-- date -->
           <div class="text-center mb-0.5 p6">
             <span class="whitespace-nowrap text-center font-bold text-primary">
@@ -123,9 +130,6 @@ let addOrRemoveToSelected = (match) => {
             </div>
           </div>
         </div>
-
-
-
       </template>
     </Modal>
   </div>
@@ -133,5 +137,19 @@ let addOrRemoveToSelected = (match) => {
 </template>
 
 <style scoped>
-
+.checked {
+  border: 1px solid #dc2626;
+  position: relative;
+}
+.checked:after {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 95%;
+  transform: translate(40%, 0);
+  width: 20px;
+  height: 20px;
+  background: url("../assets/check.svg") no-repeat center/cover;
+  color: #dc2626;
+}
 </style>
