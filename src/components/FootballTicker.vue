@@ -2,11 +2,12 @@
 import SideBar from "@/components/SideBar.vue";
 import LeagueSelector from "@/components/LeagueSelector.vue";
 import Modal from "@/components/Modal.vue";
-import {ref} from "vue";
+import {ref, watch, onMounted} from "vue";
 import axios from "axios";
 import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
 import user_store from "@/stores/user_store.js";
 import { api_information } from "@/stores/index.js";
+import TickerList from "@/components/TickerList.vue";
 
 const user = user_store();
 const url = api_information.url;
@@ -14,6 +15,7 @@ const url = api_information.url;
 // data
 let show_modal = ref(false);
 let matches = ref([]);
+let livetickers = ref([]);
 let selected_matches = ref([]);
 let selected_competition = ref();
 
@@ -21,6 +23,13 @@ let selected_competition = ref();
 let fetchGamesByCompetitionId = (competition_id) => {
   axios.get(url + `/api/competitions/${competition_id}/games`).then((response) => {
     matches.value = response.data;
+  }).catch((error) => {
+    console.log(error);
+  });
+};
+let fetchLivetickersByUserId = (user_id) => {
+  axios.get(url + `/api/users/${user_id}/tickers`).then((response) => {
+    livetickers.value = response.data;
   }).catch((error) => {
     console.log(error);
   });
@@ -37,17 +46,18 @@ let retrieveCompetitionId = (competition_id) => {
 let createTicker = () => {
   console.log("create ticker");
   if (selected_matches.value.length === 0) {
-    console.log("no matches selected");
+    alert("Bitte wählen Sie mindestens ein Spiel aus.")
     return;
   } else {
     selected_matches.value.forEach((match) => {
       axios.post(url + "/tickers", {
         "ticker": {
-          "match_id": match.id,
+          "game_id": match.id,
           "user_id": user.user.id,
         }
       }).then((response) => {
         console.log(response);
+        livetickers.value.push(response.data);
       }).catch((error) => {
         console.log(error);
       });
@@ -70,6 +80,16 @@ let setCSSClass = (match) => {
   }
 };
 
+// watch
+watch(() => selected_competition.value, (new_value) => {
+  if (new_value !== undefined) {
+    fetchGamesByCompetitionId(new_value);
+  }
+});
+
+onMounted(() => {
+  fetchLivetickersByUserId(user.user.id);
+});
 </script>
 
 <template>
@@ -88,8 +108,11 @@ let setCSSClass = (match) => {
       </button>
     </div>
 
+    <!-- list component -->
+    <TickerList :tickers="livetickers" />
+
     <!-- modal -->
-    <Modal v-if="show_modal" @close="show_modal = false" @confirm="createTicker()" :text="'Ticker anlegen'">
+    <Modal v-if="show_modal" @close="show_modal = false" @confirm="createTicker" :text="'Ticker anlegen'">
       <template #header>
         <div class="flex flex-row items-center space-x-2">
           <span>Neuen Ticker erstellen</span>
