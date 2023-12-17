@@ -64,3 +64,5 @@ export const useCompetitionStore = defineStore('competition', {
         },
     }
 });
+
+export default useCompetitionStore;

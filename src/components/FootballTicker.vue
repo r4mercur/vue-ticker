@@ -6,10 +6,12 @@ import {ref, watch, onMounted} from "vue";
 import axios from "axios";
 import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
 import user_store from "@/stores/user_store.js";
+import { useCompetitionStore } from "@/stores/competition_store.js";
 import { api_information } from "@/stores/index.js";
 import TickerList from "@/components/TickerList.vue";
 
 const user = user_store();
+const competition_store = useCompetitionStore();
 const url = api_information.url;
 
 // data
@@ -102,14 +104,14 @@ onMounted(() => {
 
     <div class="m-auto">
       <button @click="openModal" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 hover:text-white">
           Ticker anlegen
         </span>
       </button>
     </div>
 
     <!-- list component -->
-    <TickerList :tickers="livetickers" />
+    <TickerList :tickers="livetickers" :teams="competition_store.teams" />
 
     <!-- modal -->
     <Modal v-if="show_modal" @close="show_modal = false" @confirm="createTicker" :text="'Ticker anlegen'">
@@ -152,6 +154,12 @@ onMounted(() => {
               </span>
             </div>
           </div>
+        </div>
+
+        <div v-if="matches.length === 0">
+          <p>
+            Es sind keine Spiele vorhanden.
+          </p>
         </div>
       </template>
     </Modal>
