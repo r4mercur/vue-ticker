@@ -49,6 +49,14 @@ const routes = [
         meta: {
             authRequired: true,
         },
+    },
+    {
+        path: "/ticker/:id",
+        name: "Ticker",
+        component: () => import("@/views/TickerView.vue"),
+        meta: {
+            authRequired: true,
+        },
     }
 ];
 

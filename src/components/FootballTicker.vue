@@ -183,4 +183,10 @@ onMounted(() => {
   background: url("../assets/check.svg") no-repeat center/cover;
   color: #dc2626;
 }
+
+@media only screen and (max-width: 565px) {
+  .checked:after {
+    left: 90%;
+  }
+}
 </style>
