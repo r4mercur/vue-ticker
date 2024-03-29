@@ -96,22 +96,22 @@ onMounted(() => {
 
 <template>
 
-  <side-bar />
+  <side-bar class="custom-v-index"/>
 
   <!-- content -->
-  <div class="mt-16 mx-4 space-y-4 flex flex-col">
+  <div class="mt-16 mx-4 space-y-4 flex flex-col z-1 custom-z-index">
     <LeagueSelector @changed_competition="retrieveCompetitionId" />
 
     <div class="m-auto">
-      <button @click="openModal" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 hover:text-white">
+      <button @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
+        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 hover:bg-primary hover:text-white dark:bg-primary rounded-md">
           Ticker anlegen
         </span>
       </button>
     </div>
 
     <!-- list component -->
-    <TickerList :tickers="livetickers" :teams="competition_store.teams" />
+    <TickerList v-if="matches.length > 0" :tickers="livetickers" :teams="competition_store.teams" />
 
     <!-- modal -->
     <Modal v-if="show_modal" @close="show_modal = false" @confirm="createTicker" :text="'Ticker anlegen'">
@@ -188,5 +188,14 @@ onMounted(() => {
   .checked:after {
     left: 90%;
   }
+}
+
+.custom-v-index {
+  @apply overflow-visible;
+  @apply fixed z-50;
+}
+.custom-z-index {
+  @apply relative z-10;
+  @apply overflow-hidden;
 }
 </style>

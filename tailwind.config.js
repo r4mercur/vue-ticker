@@ -12,6 +12,7 @@ export default {
       colors: {
         primary: '#202225',
         secondary: '#5865f2',
+        background: '#f3f4f6',
       }
     },
   },
