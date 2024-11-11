@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SideBarIcon from "./SideBarIcon.vue";
 import useUserStore from "@/stores/user_store.js";
-import router from "../router/index.js";
+import router from "../../router";
 import axios from "axios";
-import { api_information } from "@/stores/index.js";
+import { api_information } from "@/stores";
 
 const url = api_information.url;
 const store = useUserStore();

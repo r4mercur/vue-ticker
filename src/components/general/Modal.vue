@@ -107,7 +107,7 @@ $breakpoint-lg: 1200px;
       right: -8px;
       width: 40px;
       height: 40px;
-      background: url('../assets/ic_24_close.svg');
+      background: url('../../assets/ic_24_close.svg');
       background-position: center center;
       background-repeat: no-repeat;
       cursor: pointer;

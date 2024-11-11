@@ -1,5 +1,5 @@
 <script setup>
-import {formatDateToGermanTimeFormat} from "../helpers/index.js";
+import {formatDateToGermanTimeFormat} from "../../helpers/index.js";
 import { api_information } from "@/stores/index.js";
 import router from "@/router/index.js";
 
@@ -59,7 +59,7 @@ let pushToTicker = (ticker_id) => {
         <div>
           <button @click="pushToTicker(ticker.id)" class="overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800 inline-flex items-center">
             <span class="relative flex items-center px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 hover:text-white">
-              <img src="../assets/ic_24_edit.svg" class="w-4 h-4 mr-2" alt="Edit" />
+              <img src="../../assets/ic_24_edit.svg" class="w-4 h-4 mr-2" alt="Edit" />
               Tickern
             </span>
           </button>

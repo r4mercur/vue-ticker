@@ -29,7 +29,7 @@ const routes = [
     {
         path: "/login",
         name: "Login",
-        component: () => import("@/components/LoginForm.vue"),
+        component: () => import("@/components/general/LoginForm.vue"),
         meta: {
             authRequired: false,
         },
@@ -37,7 +37,7 @@ const routes = [
     {
         path: "/register",
         name: "Register",
-        component: () => import("@/components/RegistrationForm.vue"),
+        component: () => import("@/components/general/RegistrationForm.vue"),
         meta: {
             authRequired: false,
         },
@@ -45,7 +45,7 @@ const routes = [
     {
         path: "/ticker/football",
         name: "FootballTicker",
-        component: () => import("@/components/FootballTicker.vue"),
+        component: () => import("@/components/ticker/FootballTicker.vue"),
         meta: {
             authRequired: true,
         },

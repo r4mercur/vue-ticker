@@ -1,9 +1,9 @@
 <script setup>
 
-import BackendSideBar from "@/components/BackendSideBar.vue";
+import BackendSideBar from "@/components/general/BackendSideBar.vue";
 import {computed, onMounted, ref} from "vue";
 import { useCompetitionStore } from "@/stores/competition_store.js";
-import Modal from "@/components/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 
 const competition_store = useCompetitionStore();
 

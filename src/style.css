@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer components {
+    .body {
+        @apply flex flex-col items-center justify-center h-screen w-screen
+        bg-gray-900 text-white font-sans;
+    }
+
     .sidebar-icon {
         @apply relative flex items-center justify-center h-12 w-12 mt-2 mb-2 ml-8 mr-8 mx-auto shadow-lg
         bg-gray-800 text-green-500 hover:bg-green-600 hover:text-white cursor-pointer

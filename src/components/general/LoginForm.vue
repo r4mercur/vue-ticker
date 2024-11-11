@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useUserStore } from "@/stores/user_store.js";
-import router from "../router/index.js";
+import router from "../../router/index.js";
 import axios from "axios";
-import SideBar from "@/components/SideBar.vue";
+import SideBar from "@/components/general/SideBar.vue";
 import {api_information} from "@/stores/index.js"
 
 const store = useUserStore();

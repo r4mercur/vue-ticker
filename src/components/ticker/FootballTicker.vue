@@ -1,14 +1,14 @@
 <script setup>
-import SideBar from "@/components/SideBar.vue";
-import LeagueSelector from "@/components/LeagueSelector.vue";
-import Modal from "@/components/Modal.vue";
+import SideBar from "@/components/general/SideBar.vue";
+import LeagueSelector from "@/components/matches/LeagueSelector.vue";
+import Modal from "@/components/general/Modal.vue";
 import {ref, watch, onMounted} from "vue";
 import axios from "axios";
 import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
 import user_store from "@/stores/user_store.js";
 import { useCompetitionStore } from "@/stores/competition_store.js";
 import { api_information } from "@/stores/index.js";
-import TickerList from "@/components/TickerList.vue";
+import TickerList from "@/components/ticker/TickerList.vue";
 
 const user = user_store();
 const competition_store = useCompetitionStore();
@@ -103,7 +103,7 @@ onMounted(() => {
     <LeagueSelector @changed_competition="retrieveCompetitionId" />
 
     <div class="m-auto">
-      <button @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
+      <button v-if="matches.length > 0" @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 hover:bg-primary hover:text-white dark:bg-primary rounded-md">
           Ticker anlegen
         </span>
@@ -180,7 +180,7 @@ onMounted(() => {
   transform: translate(40%, 0);
   width: 20px;
   height: 20px;
-  background: url("../assets/check.svg") no-repeat center/cover;
+  background: url("../../assets/check.svg") no-repeat center/cover;
   color: #dc2626;
 }
 

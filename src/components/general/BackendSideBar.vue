@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import user_store from "@/stores/user_store.js";
 import router from "@/router/index.js";
-import SideBarIcon from "@/components/SideBarIcon.vue";
+import SideBarIcon from "@/components/general/SideBarIcon.vue";
 
 const user = user_store();
 

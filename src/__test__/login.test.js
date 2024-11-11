@@ -1,4 +1,4 @@
-import LoginForm from "@/components/LoginForm.vue";
+import LoginForm from "@/components/general/LoginForm.vue";
 import { mount, flushPromises } from "@vue/test-utils";
 import axios from "axios";
 import router from '@/router/index.js';

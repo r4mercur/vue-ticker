@@ -1,8 +1,8 @@
 <script setup>
-import BackendSideBar from "@/components/BackendSideBar.vue";
+import BackendSideBar from "@/components/general/BackendSideBar.vue";
 import {onMounted, ref, computed} from "vue";
 import axios from "axios";
-import Modal from "@/components/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { api_information } from "@/stores/index.js";
 
 const url = api_information.url;
