@@ -108,6 +108,17 @@ onMounted(() => {
           Ticker anlegen
         </span>
       </button>
+
+      <div v-if="matches.length === 0">
+        <p>
+          Hier können Sie Ticker erstellen, um Spiele live zu verfolgen. <br />
+          Bitte lege erst ein Spiel an, bevor du einen Ticker erstellst. <br /><br />
+
+          <router-link to="/matches" class="text-primary underline">
+            Hier geht es zu den Spielen.
+          </router-link>
+        </p>
+      </div>
     </div>
 
     <!-- list component -->

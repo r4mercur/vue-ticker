@@ -57,7 +57,15 @@ const routes = [
         meta: {
             authRequired: true,
         },
-    }
+    },
+	{
+		path: "/matches",
+		name: "Matches",
+		component: () => import("@/views/MatchView.vue"),
+		meta: {
+			authRequired: true,
+		},
+	}
 ];
 
 const router = createRouter({
