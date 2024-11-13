@@ -1,6 +1,6 @@
 <script setup>
 import SideBar from "@/components/general/SideBar.vue";
-import LeagueSelector from "@/components/matches/LeagueSelector.vue";
+import LeagueSelector from "@/components/games/LeagueSelector.vue";
 import Modal from "@/components/general/Modal.vue";
 import {ref, watch, onMounted} from "vue";
 import axios from "axios";
@@ -132,7 +132,7 @@ onMounted(() => {
         </div>
       </template>
       <template #body>
-        <!-- list of matches -->
+        <!-- list of games -->
         <div v-for="match in matches" :key="match.id" :class="setCSSClass(match)">
           <!-- date -->
           <div class="text-center mb-0.5 p6">

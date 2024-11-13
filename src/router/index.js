@@ -59,9 +59,9 @@ const routes = [
         },
     },
 	{
-		path: "/matches",
+		path: "/games",
 		name: "Matches",
-		component: () => import("@/views/MatchView.vue"),
+		component: () => import("@/views/GameView.vue"),
 		meta: {
 			authRequired: true,
 		},
