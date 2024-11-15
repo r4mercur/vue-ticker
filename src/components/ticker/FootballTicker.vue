@@ -9,6 +9,7 @@ import user_store from "@/stores/user_store.js";
 import { useCompetitionStore } from "@/stores/competition_store.js";
 import { api_information } from "@/stores/index.js";
 import TickerList from "@/components/ticker/TickerList.vue";
+import GameDaySelector from "@/components/games/GameDaySelector.vue";
 
 const user = user_store();
 const competition_store = useCompetitionStore();
@@ -20,10 +21,15 @@ let matches = ref([]);
 let livetickers = ref([]);
 let selected_matches = ref([]);
 let selected_competition = ref();
+let selected_game_day = ref(1);
 
 // methods
-let fetchGamesByCompetitionId = (competition_id) => {
-  axios.get(url + `/api/competitions/${competition_id}/games`).then((response) => {
+let fetchGamesByCompetitionId = (competition_id, gameday) => {
+  if (competition_id === undefined || gameday === undefined) {
+    return;
+  }
+
+  axios.get(url + `/api/competitions/${competition_id}/games/${gameday}`).then((response) => {
     matches.value = response.data;
   }).catch((error) => {
     console.log(error);
@@ -44,6 +50,9 @@ let openModal = () => {
 };
 let retrieveCompetitionId = (competition_id) => {
   selected_competition.value = competition_id;
+};
+let retrieveGameDay = (game_day) => {
+  selected_game_day.value = game_day;
 };
 let createTicker = () => {
   console.log("create ticker");
@@ -84,8 +93,14 @@ let setCSSClass = (match) => {
 
 // watch
 watch(() => selected_competition.value, (new_value) => {
-  if (new_value !== undefined) {
-    fetchGamesByCompetitionId(new_value);
+  if (new_value !== undefined && selected_game_day.value !== undefined) {
+    fetchGamesByCompetitionId(new_value, selected_game_day.value);
+  }
+});
+
+watch(() => selected_game_day.value, (new_value) => {
+  if (selected_competition.value !== undefined && new_value !== undefined) {
+    fetchGamesByCompetitionId(selected_competition.value, new_value);
   }
 });
 
@@ -101,6 +116,8 @@ onMounted(() => {
   <!-- content -->
   <div class="mt-16 mx-4 space-y-4 flex flex-col z-1 custom-z-index">
     <LeagueSelector @changed_competition="retrieveCompetitionId" />
+
+    <GameDaySelector @changed_game_day="retrieveGameDay" />
 
     <div class="m-auto">
       <button v-if="matches.length > 0" @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
@@ -149,7 +166,7 @@ onMounted(() => {
               </span>
             </div>
             <div>
-              <img :src="url + '/images/team_' + match.team_home_id + '.png'" class="w-18 h-18" :alt="match.team_home.name">
+              <img :src="match.team_home.logo_url" class="w-18 h-18" :alt="match.team_home.name">
             </div>
             <div class="text-center m-auto">
               <span class="font-bold text-primary">
@@ -157,7 +174,7 @@ onMounted(() => {
               </span>
             </div>
             <div>
-              <img :src="url + '/images/team_' + match.team_away_id + '.png'" class="w-18 h-18" :alt="match.team_away.name">
+              <img :src="match.team_away.logo_url" class="w-18 h-18" :alt="match.team_away.name">
             </div>
             <div class="col-span-2 m-auto text-center">
               <span class="text-primary">
