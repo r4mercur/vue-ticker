@@ -39,7 +39,7 @@ let pushToTicker = (ticker_id) => {
             <template v-for="team in teams" :key="team.id">
               <div v-if="team.id === ticker.game.team_home_id" class="flex items-center whitespace-nowrap">
                 {{ team.name }}
-                <img v-if="team.id === ticker.game.team_home_id" :src="url + '/images/team_' + team.id + '.png'" class="w-8 h-8 mr-2 ml-2" :alt="team.name">
+                <img v-if="team.id === ticker.game.team_home_id" :src="team.logo_url" class="w-8 h-8 mr-2 ml-2" :alt="team.name">
               </div>
             </template>
 
@@ -49,7 +49,7 @@ let pushToTicker = (ticker_id) => {
 
             <template v-for="team in teams" :key="team.id">
               <div v-if="team.id === ticker.game.team_away_id" class="flex items-center whitespace-nowrap">
-                <img v-if="team.id === ticker.game.team_away_id" :src="url + '/images/team_' + team.id + '.png'" class="w-8 h-8 mr-2 ml-2" :alt="team.name">
+                <img v-if="team.id === ticker.game.team_away_id" :src="team.logo_url" class="w-8 h-8 mr-2 ml-2" :alt="team.name">
                 {{ team.name }}
               </div>
             </template>

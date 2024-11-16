@@ -9,6 +9,9 @@ import {api_information} from "@/stores/index.js"
 const store = useUserStore();
 const url = api_information.url;
 
+const showMessage = ref(false);
+const message = ref("");
+
 let login_data = ref({
   email: "",
   password: "",
@@ -23,7 +26,16 @@ let login = () => {
     })
     .catch((error) => {
       console.log(error);
+      displayMessage("Login fehlgeschlagen");
     });
+};
+let displayMessage = (msg) => {
+  message.value = msg;
+  showMessage.value = true;
+
+  setTimeout(() => {
+    showMessage.value = false;
+  }, 3000);
 };
 
 onMounted(() => {
@@ -54,8 +66,24 @@ onMounted(() => {
       </div>
     </form>
   </div>
+
+  <!-- error message -->
+  <div v-if="showMessage" class="flash-message">
+    {{ message }}
+  </div>
 </template>
 
 <style scoped>
-
+.flash-message {
+  background-color: #f0ad4e;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: fit-content;
+}
 </style>

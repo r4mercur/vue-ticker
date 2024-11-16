@@ -26,6 +26,7 @@ let logout = () => {
       <side-bar-icon :icon="'io-football-sharp'" :text="'Fußball 💡'" />
     </router-link>
 
+    <!--
     <router-link to="">
       <side-bar-icon :icon="'md-sportshandball'" :text="'Handball 💡'" />
     </router-link>
@@ -41,6 +42,7 @@ let logout = () => {
     <router-link to="">
       <side-bar-icon :icon="'gi-hockey'" :text="'Hockey 💡'" />
     </router-link>
+    -->
 
     <side-bar-icon id="logout" class="fixed right-0" :icon="'co-account-logout'" :text="'Logout 💡'" @click="logout()" />
   </div>
