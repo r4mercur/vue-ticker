@@ -65,6 +65,7 @@ let createTicker = () => {
         "ticker": {
           "game_id": match.id,
           "user_id": user.user.id,
+          "ticker_state": 0
         }
       }).then((response) => {
         console.log(response);
