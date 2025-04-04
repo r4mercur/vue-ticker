@@ -121,7 +121,7 @@ onMounted(() => {
 
     <div class="m-auto">
       <button v-if="matches.length > 0" @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 hover:bg-primary hover:text-white dark:bg-primary rounded-md">
+        <span class="relative px-5 py-2.5 transition-all ease-in duration-75  hover:text-white  rounded-md">
           Ticker anlegen
         </span>
       </button>
