@@ -11,6 +11,7 @@ const url = api_information.url;
 
 let user_data = ref({
     email: "",
+    username: "",
     password: "",
     password_confirmation: "",
 });
@@ -52,6 +53,10 @@ onMounted(() => {
       <div class="pb-2 pt-4">
         <input v-model="user_data.email" type="email"
                name="email" id="email" placeholder="Email" class="block w-full p-4 rounded-sm bg-primary text-secondary">
+      </div>
+      <div class="pb-2 pt-4">
+        <input v-model="user_data.username" type="text"
+               name="username" id="username" placeholder="Username" class="block w-full p-4 rounded-sm bg-primary text-secondary">
       </div>
       <div class="pb-2 pt-4">
         <input v-model="user_data.password" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
