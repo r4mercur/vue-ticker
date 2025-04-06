@@ -22,7 +22,7 @@ test("Login function __test__", async () => {
     }
   });
 
-  await wrapper.find('#email').setValue("bjarne.braeuer@gmx.de");
+  await wrapper.find('#email').setValue("test@test.de");
   await wrapper.find('#password').setValue("start");
 
   axios.post.mockResolvedValueOnce({ data: { status: "Logged in successfully", user: user } });
@@ -31,7 +31,7 @@ test("Login function __test__", async () => {
   await flushPromises();
 
   expect(axios.post).toHaveBeenCalledWith(url + "/api/login", {
-    email: "bjarne.braeuer@gmx.de",
+    email: "test@test.de",
     password: "start"
   })
 
