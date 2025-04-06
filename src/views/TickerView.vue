@@ -10,17 +10,22 @@ const route = useRoute();
 
 // data
 let ticker = ref();
-let ticketState = ref("");
+let ticketState = ref("Ticker starten");
+
+// methods
+const openModal = () => {
+  console.log("open modal");
+  // Logic to open the modal goes here
+};
 
 onMounted(() => {
   axios.get(url + "/tickers/" + route.params.id).then((response) => {
     ticker = response.data;
-    console.log(ticker);
+    ticketState.value = response.data.ticker_state;
+    console.log("Ticker value:", ticker);
   }).catch((error) => {
     console.log(error);
   });
-
-  ticketState.value = "Ticker starten";
 })
 </script>
 
@@ -33,16 +38,20 @@ onMounted(() => {
     <div class="w-auto">
       <div class="flex flex-row justify-center items-center h-screen">
         <div class="flex flex-col text-center w-full">
-          <div class="font-bold text-2xl">Ticker</div>
+          <div v-if="ticketState === 'not_started'" class="font-bold text-2xl">Ticker starten</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div>
-    <button>
-      Event hinzufügen
-    </button>
+  <div class="bottom-actions">
+    <v-icon
+      name="fc-plus"
+      @click="ticketState = 'started'"
+      class="plus-icon"
+      scale="2"
+      onclick="openModal()"
+    ></v-icon>
   </div>
 </template>
 
@@ -52,7 +61,6 @@ onMounted(() => {
   top: 0;
   left: 0;
   width: 200px;
-  height: 100vh;
   background-color: #333;
 }
 
@@ -65,5 +73,27 @@ onMounted(() => {
   color: white;
   max-height: 125px;
   padding-top: 65px;
+}
+.bottom-actions {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plus-icon {
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.add-event-button {
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: #333;
 }
 </style>

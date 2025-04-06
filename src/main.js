@@ -6,11 +6,12 @@ import App from './App.vue'
 import router from './router'
 
 // icons
+
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    HiShieldCheck, CoAccountLogout, MdModeeditOutlined, MdDeleteOutlined} from "oh-vue-icons/icons";
+    HiShieldCheck, CoAccountLogout, MdModeeditOutlined, MdDeleteOutlined, FcPlus} from "oh-vue-icons/icons";
 addIcons(IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    CoAccountLogout, HiShieldCheck, MdModeeditOutlined, MdDeleteOutlined);
+    CoAccountLogout, HiShieldCheck, MdModeeditOutlined, MdDeleteOutlined, FcPlus);
 
 // state tool
 const pinia = createPinia();
