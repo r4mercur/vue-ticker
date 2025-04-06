@@ -4,25 +4,34 @@ import { api_information } from "@/stores/index.js";
 import {useRoute} from "vue-router";
 import {onMounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
+import Modal from "@/components/general/Modal.vue";
 
 const url = api_information.url;
 const route = useRoute();
 
 // data
 let ticker = ref();
+let showModal = ref(false);
 let ticketState = ref("Ticker starten");
 
 // methods
-const openModal = () => {
-  console.log("open modal");
-  // Logic to open the modal goes here
+const openEventModal = () => {
+  showModal.value = true;
+};
+
+const closeEventModal = () => {
+  showModal.value = false;
+};
+
+const triggerEvent = (event) => {
+  console.log(`Event ${event} triggered`);
+  closeEventModal();
 };
 
 onMounted(() => {
   axios.get(url + "/tickers/" + route.params.id).then((response) => {
-    ticker = response.data;
+    ticker.value = response.data;
     ticketState.value = response.data.ticker_state;
-    console.log("Ticker value:", ticker);
   }).catch((error) => {
     console.log(error);
   });
@@ -44,14 +53,40 @@ onMounted(() => {
     </div>
   </div>
 
+  <Modal v-if="showModal" @close="closeEventModal" :disable-footer="true">
+    <template v-slot:header>
+      <p class="text-center text-2xl mb-4">Ticker Events</p>
+    </template>
+    <template v-slot:body>
+      <div class="modal-content">
+        <h2 class="text-center text-2xl mb-4">Event auswählen</h2>
+        <div class="button-row">
+          <button @click="triggerEvent('Event 1')" class="modal-button">Event 1</button>
+          <button @click="triggerEvent('Event 2')" class="modal-button">Event 2</button>
+          <button @click="triggerEvent('Event 3')" class="modal-button">Event 3</button>
+        </div>
+        <div class="button-row">
+          <button @click="triggerEvent('Event 4')" class="modal-button">Event 4</button>
+          <button @click="triggerEvent('Event 5')" class="modal-button">Event 5</button>
+          <button @click="triggerEvent('Event 6')" class="modal-button">Event 6</button>
+        </div>
+        <div class="button-row">
+          <button @click="triggerEvent('Event 7')" class="modal-button">Event 7</button>
+          <button @click="triggerEvent('Event 8')" class="modal-button">Event 8</button>
+          <button @click="triggerEvent('Event 9')" class="modal-button">Event 9</button>
+        </div>
+      </div>
+    </template>
+  </Modal>
+
+
   <div class="bottom-actions">
     <v-icon
       name="fc-plus"
-      @click="ticketState = 'started'"
       class="plus-icon"
       scale="2"
-      onclick="openModal()"
-    ></v-icon>
+      @click="openEventModal"
+    />
   </div>
 </template>
 
@@ -90,10 +125,25 @@ onMounted(() => {
   font-size: 2rem;
 }
 
-.add-event-button {
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.modal-button {
+  background-color: #5865f2;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  background-color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>
