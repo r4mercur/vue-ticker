@@ -217,10 +217,10 @@ $breakpoint-lg: 1200px;
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: all .3s;
+  transition: all 1s;
 
   .modal__container {
-    transition: all .3s;
+    transition: all 1s;
   }
 }
 

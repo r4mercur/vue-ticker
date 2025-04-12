@@ -5,6 +5,7 @@ import {useRoute} from "vue-router";
 import {onMounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
 import Modal from "@/components/general/Modal.vue";
+import {EventTypes} from "@/helpers/index.js";
 
 const url = api_information.url;
 const route = useRoute();
@@ -61,19 +62,16 @@ onMounted(() => {
       <div class="modal-content">
         <h2 class="text-center text-2xl mb-4">Event auswählen</h2>
         <div class="button-row">
-          <button @click="triggerEvent('Event 1')" class="modal-button">Event 1</button>
-          <button @click="triggerEvent('Event 2')" class="modal-button">Event 2</button>
-          <button @click="triggerEvent('Event 3')" class="modal-button">Event 3</button>
-        </div>
-        <div class="button-row">
-          <button @click="triggerEvent('Event 4')" class="modal-button">Event 4</button>
-          <button @click="triggerEvent('Event 5')" class="modal-button">Event 5</button>
-          <button @click="triggerEvent('Event 6')" class="modal-button">Event 6</button>
-        </div>
-        <div class="button-row">
-          <button @click="triggerEvent('Event 7')" class="modal-button">Event 7</button>
-          <button @click="triggerEvent('Event 8')" class="modal-button">Event 8</button>
-          <button @click="triggerEvent('Event 9')" class="modal-button">Event 9</button>
+          <button @click="triggerEvent(EventTypes.START_GAME)" class="modal-button rounded-full bg-primary">
+            <v-icon name="md-sports" class="btn-icon-color" scale="2" />
+          </button>
+          <button @click="triggerEvent('Event 2')" class="modal-button rounded-full bg-primary">
+            <v-icon name="md-sportssoccer-round" class="btn-icon-color" scale="2" />
+          </button>
+          <button @click="triggerEvent('Event 3')" class="modal-button">
+            <v-icon name="" />
+            Event 3
+          </button>
         </div>
       </div>
     </template>
@@ -143,7 +141,10 @@ onMounted(() => {
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+}
+
+.btn-icon-color {
+  color: rgb(22 163 74);
 }
 </style>

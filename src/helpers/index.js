@@ -12,3 +12,7 @@ export function formatDateToGermanTimeFormat (date_string, with_time) {
         return `${day}.${month}.${year}`;
     }
 }
+
+export const EventTypes = Object.freeze({
+    START_GAME: Symbol("START_GAME"),
+})
