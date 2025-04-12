@@ -2,18 +2,21 @@
 import axios from "axios";
 import { api_information } from "@/stores/index.js";
 import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
 import Modal from "@/components/general/Modal.vue";
-import {EventTypes} from "@/helpers/index.js";
+import {EventTypes, Stopwatch} from "@/helpers/index.js";
 
 const url = api_information.url;
 const route = useRoute();
+const stopwatch = new Stopwatch();
 
 // data
 let ticker = ref();
+let tickerTime = ref("00:00");
 let showModal = ref(false);
-let ticketState = ref("Ticker starten");
+let tickerState = ref("Ticker starten");
+let intervalId = null;
 
 // methods
 const openEventModal = () => {
@@ -25,18 +28,32 @@ const closeEventModal = () => {
 };
 
 const triggerEvent = (event) => {
-  console.log(`Event ${event} triggered`);
+  // handle logic for all the event's
+  if (event === EventTypes.START_GAME) {
+    stopwatch.start();
+    tickerState.value = "first_half_running";
+    intervalId = setInterval(() => {
+      tickerTime.value = stopwatch.getTime();
+    }, 1000);
+  }
+
   closeEventModal();
 };
 
 onMounted(() => {
   axios.get(url + "/tickers/" + route.params.id).then((response) => {
     ticker.value = response.data;
-    ticketState.value = response.data.ticker_state;
+    tickerState.value = response.data.ticker_state;
   }).catch((error) => {
     console.log(error);
   });
 })
+
+onUnmounted(() => {
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
+});
 </script>
 
 <template>
@@ -48,7 +65,8 @@ onMounted(() => {
     <div class="w-auto">
       <div class="flex flex-row justify-center items-center h-screen">
         <div class="flex flex-col text-center w-full">
-          <div v-if="ticketState === 'not_started'" class="font-bold text-2xl">Ticker starten</div>
+          <div v-if="tickerState === 'not_started'" class="font-bold text-2xl">Ticker starten</div>
+          <div v-else-if="tickerState === 'first_half_running'">1. Halbzeit: {{ tickerTime }}</div>
         </div>
       </div>
     </div>
@@ -56,21 +74,19 @@ onMounted(() => {
 
   <Modal v-if="showModal" @close="closeEventModal" :disable-footer="true">
     <template v-slot:header>
-      <p class="text-center text-2xl mb-4">Ticker Events</p>
+      <p class="text-center text-2xl mb-4">Events erstellen</p>
     </template>
     <template v-slot:body>
       <div class="modal-content">
-        <h2 class="text-center text-2xl mb-4">Event auswählen</h2>
         <div class="button-row">
-          <button @click="triggerEvent(EventTypes.START_GAME)" class="modal-button rounded-full bg-primary">
+          <button v-if="tickerState === 'not_started'"  @click="triggerEvent(EventTypes.START_GAME)" class="modal-button rounded-full bg-primary">
             <v-icon name="md-sports" class="btn-icon-color" scale="2" />
           </button>
-          <button @click="triggerEvent('Event 2')" class="modal-button rounded-full bg-primary">
+          <button @click="triggerEvent(EventTypes.GOAL)" class="modal-button rounded-full bg-primary">
             <v-icon name="md-sportssoccer-round" class="btn-icon-color" scale="2" />
           </button>
-          <button @click="triggerEvent('Event 3')" class="modal-button">
-            <v-icon name="" />
-            Event 3
+          <button @click="triggerEvent('specific')" class="modal-button rounded-full bg-primary">
+            <v-icon name="bi-chat-text-fill" class="btn-icon-color" scale="2" />
           </button>
         </div>
       </div>
@@ -137,7 +153,6 @@ onMounted(() => {
 }
 
 .modal-button {
-  background-color: #5865f2;
   color: white;
   padding: 10px 20px;
   border: none;
