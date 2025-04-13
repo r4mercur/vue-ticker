@@ -6,6 +6,9 @@ import {onMounted, onUnmounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
 import Modal from "@/components/general/Modal.vue";
 import {EventTypes, Stopwatch} from "@/helpers/index.js";
+import GoalModal from "@/components/events/GoalModal.vue";
+import CardModal from "@/components/events/CardModal.vue";
+import TextModal from "@/components/events/TextModal.vue";
 
 const url = api_information.url;
 const route = useRoute();
@@ -14,7 +17,14 @@ const stopwatch = new Stopwatch();
 // data
 let ticker = ref();
 let tickerTime = ref("00:00");
+let tickerEvent = ref();
+let players = ref([]);
+
 let showModal = ref(false);
+let showGoalModal = ref(false);
+let showCardModal = ref(false);
+let showTextModal = ref(false);
+
 let tickerState = ref("Ticker starten");
 let intervalId = null;
 
@@ -27,14 +37,37 @@ const closeEventModal = () => {
   showModal.value = false;
 };
 
+const startFirstHalf = () => {
+  stopwatch.start();
+  tickerState.value = "first_half_running";
+  intervalId = setInterval(() => {
+    tickerTime.value = stopwatch.getTime();
+  }, 1000);
+}
+
+const saveCard = () => {
+  // handle logic for saving card event
+  showCardModal.value = false;
+};
+
+const saveGoal = () => {
+  // handle logic for saving goal event
+  showGoalModal.value = false;
+};
+
+const saveText = () => {
+  // handle logic for saving text event
+  showTextModal.value = false;
+};
+
 const triggerEvent = (event) => {
   // handle logic for all the event's
   if (event === EventTypes.START_GAME) {
-    stopwatch.start();
-    tickerState.value = "first_half_running";
-    intervalId = setInterval(() => {
-      tickerTime.value = stopwatch.getTime();
-    }, 1000);
+    startFirstHalf()
+  } else if (event === EventTypes.GOAL) {
+    showGoalModal.value = true;
+  } else if (event === EventTypes.RED_CARD || event === EventTypes.YELLOW_CARD) {
+    showCardModal.value = true;
   }
 
   closeEventModal();
@@ -44,6 +77,8 @@ onMounted(() => {
   axios.get(url + "/tickers/" + route.params.id).then((response) => {
     ticker.value = response.data;
     tickerState.value = response.data.ticker_state;
+    players.value.push(response.data.game.team_home.players)
+    players.value.push(response.data.game.team_away.players)
   }).catch((error) => {
     console.log(error);
   });
@@ -93,6 +128,10 @@ onUnmounted(() => {
     </template>
   </Modal>
 
+  <!-- Event modals -->
+  <GoalModal v-if="showGoalModal" @close="showGoalModal = false" @confirm="saveGoal" :data="tickerEvent" :players="players" />
+  <CardModal v-if="showCardModal" @close="showCardModal = false" @confirm="saveCard" :data="tickerEvent" />
+  <TextModal v-if="showTextModal" @close="showTextModal = false" @confirm="saveText" :data="tickerEvent" />
 
   <div class="bottom-actions">
     <v-icon
