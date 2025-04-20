@@ -36,6 +36,11 @@ export class Stopwatch {
         }, 1000)
     }
 
+    setTime(time) {
+        this.pause();
+        this.time = time;
+    }
+
     pause() {
         clearInterval(this.interval);
         this.interval = null;
