@@ -4,6 +4,7 @@ import { api_information } from "@/stores/index.js";
 import router from "@/router/index.js";
 
 const url = api_information.url;
+const emit = defineEmits(['delete-ticker']);
 
 defineProps({
   tickers: {
@@ -19,6 +20,14 @@ defineProps({
 // methods
 let pushToTicker = (ticker_id) => {
   router.push(`/ticker/${ticker_id}`);
+};
+
+let deleteTicker = (ticker_id) => {
+  if (!confirm("Wollen Sie den Ticker wirklich löschen?")) {
+    return;
+  }
+
+  emit("delete-ticker", ticker_id);
 };
 </script>
 
@@ -63,6 +72,14 @@ let pushToTicker = (ticker_id) => {
               Tickern
             </span>
           </button>
+
+          <button
+              @click="deleteTicker(ticker.id)"
+              class="delete-button"
+              title="Ticker löschen"
+          >
+            <v-icon name="md-delete" scale="1.2" />
+          </button>
         </div>
       </div>
     </div>
@@ -70,5 +87,18 @@ let pushToTicker = (ticker_id) => {
 </template>
 
 <style scoped>
+.delete-button {
+  padding: 4px 8px;
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  transition: color 0.2s;
+  opacity: 0.7;
+}
 
+.delete-button:hover {
+  opacity: 1;
+}
 </style>

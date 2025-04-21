@@ -13,15 +13,25 @@ export function formatDateToGermanTimeFormat (date_string, with_time) {
     }
 }
 
-export const EventTypes = Object.freeze({
-    START_GAME: Symbol("START_GAME"),
-    START_HALFTIME: Symbol("START_HALFTIME"),
-    END_GAME: Symbol("END_GAME"),
-    GOAL: Symbol("GOAL"),
-    ASSIST: Symbol("ASSIST"),
-    YELLOW_CARD: Symbol("YELLOW_CARD"),
-    RED_CARD: Symbol("RED_CARD"),
-})
+export const EventTypesEnum = {
+    START_GAME: 1,
+    START_HALFTIME: 2,
+    END_GAME: 3,
+    GOAL: 4,
+    YELLOW_CARD: 5,
+    RED_CARD: 6,
+    TEXT: 7
+};
+
+export const EventTypeLabels = {
+    1: 'START_GAME',
+    2: 'START_HALFTIME',
+    3: 'END_GAME',
+    4: 'GOAL',
+    5: 'YELLOW_CARD',
+    6: 'RED_CARD',
+    7: 'TEXT'
+};
 
 export class Stopwatch {
     constructor() {

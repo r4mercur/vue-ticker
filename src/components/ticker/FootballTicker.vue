@@ -91,6 +91,15 @@ let setCSSClass = (match) => {
     return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg";
   }
 };
+let deleteTicker = (tickerId) => {
+  axios.delete(url + `/tickers/${tickerId}`).then((response) => {
+    if (response.status === 204) {
+      livetickers.value = livetickers.value.filter((ticker) => ticker.id !== tickerId);
+    }
+  }).catch((error) => {
+    console.log(error);
+  });
+}
 
 // watch
 watch(() => selected_competition.value, (new_value) => {
@@ -140,7 +149,7 @@ onMounted(() => {
     </div>
 
     <!-- list component -->
-    <TickerList v-if="matches.length > 0" :tickers="livetickers" :teams="competition_store.teams" />
+    <TickerList v-if="matches.length > 0" :tickers="livetickers" :teams="competition_store.teams" @delete-ticker="deleteTicker" />
 
     <!-- modal -->
     <Modal v-if="show_modal" @close="show_modal = false" @confirm="createTicker" :text="'Ticker anlegen'">

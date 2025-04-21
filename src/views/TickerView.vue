@@ -5,7 +5,7 @@ import {useRoute} from "vue-router";
 import {onMounted, onUnmounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
 import Modal from "@/components/general/Modal.vue";
-import {EventTypes, Stopwatch} from "@/helpers/index.js";
+import {EventTypesEnum, Stopwatch} from "@/helpers/index.js";
 import GoalModal from "@/components/events/GoalModal.vue";
 import CardModal from "@/components/events/CardModal.vue";
 import TextModal from "@/components/events/TextModal.vue";
@@ -60,6 +60,28 @@ const updateTickerState = (state) => {
   });
 };
 
+const deleteEvent = (event) => {
+  if (!confirm("Do you really want to delete this event?")) {
+    return;
+  }
+
+  if (event.event_type === EventTypesEnum.START_GAME) {
+    // Reset the ticker state to "not_started" and stop the timer
+    tickerState.value = "not_started";
+    clearInterval(intervalId);
+    stopwatch.reset();
+    tickerTime.value = "00:00";
+    updateTickerState(tickerState.value);
+  }
+
+  axios.delete(url + "/ticker_events/" + event.id).then((response) => {
+    if (response.status === 204) {
+      tickerEvents.value = tickerEvents.value.filter(e => e.id !== event.id);
+    }
+  }).catch((error) => {
+    console.log(error);
+  });
+};
 
 const openEventModal = () => {
   showModal.value = true;
@@ -78,7 +100,7 @@ const startFirstHalf = () => {
 
   const event = {
     ticker_id: ticker.value.id,
-    event_type: EventTypes.START_GAME,
+    event_type: EventTypesEnum.START_GAME,
     minute: stopwatch.getTime(),
     user_id: userStore.user.id
   };
@@ -104,16 +126,34 @@ const saveText = () => {
 
 const triggerEvent = (event) => {
   // handle logic for all the event's
-  if (event === EventTypes.START_GAME) {
+  if (event === EventTypesEnum.START_GAME) {
     startFirstHalf()
-  } else if (event === EventTypes.GOAL) {
+  } else if (event === EventTypesEnum.GOAL) {
     showGoalModal.value = true;
-  } else if (event === EventTypes.RED_CARD || event === EventTypes.YELLOW_CARD) {
+  } else if (event === EventTypesEnum.RED_CARD || event === EventTypesEnum.YELLOW_CARD) {
     showCardModal.value = true;
   }
 
   closeEventModal();
 };
+
+const startTimerFromLastEvent = () => {
+  if (tickerState.value === "first_half") {
+    const lastEvent = tickerEvents.value[tickerEvents.value.length - 1];
+    if (lastEvent) {
+      const [minutes, seconds] = lastEvent.minute.split(':').map(Number);
+      const totalSeconds = (minutes * 60) + seconds;
+
+      stopwatch.setTime(totalSeconds);
+      tickerTime.value = lastEvent.minute;
+
+      stopwatch.start();
+      intervalId = setInterval(() => {
+        tickerTime.value = stopwatch.getTime();
+      }, 1000);
+    }
+  }
+}
 
 onMounted(() => {
   axios.get(url + "/tickers/" + route.params.id).then((response) => {
@@ -123,21 +163,7 @@ onMounted(() => {
     players.value.push(response.data.game.team_home.players)
     players.value.push(response.data.game.team_away.players)
 
-    if (tickerState.value === "first_half") {
-      const lastEvent = tickerEvents.value[tickerEvents.value.length - 1];
-      if (lastEvent) {
-        const [minutes, seconds] = lastEvent.minute.split(':').map(Number);
-        const totalSeconds = (minutes * 60) + seconds;
-
-        stopwatch.setTime(totalSeconds);
-        tickerTime.value = lastEvent.minute;
-
-        stopwatch.start();
-        intervalId = setInterval(() => {
-          tickerTime.value = stopwatch.getTime();
-        }, 1000);
-      }
-    }
+    startTimerFromLastEvent();
 
   }).catch((error) => {
     console.log(error);
@@ -174,25 +200,25 @@ onUnmounted(() => {
         <div class="event-time">{{ event.minute }}</div>
 
         <!-- START_GAME event -->
-        <div v-if="event.event_type === EventTypes.START_GAME" class="event-content start-game">
+        <div v-if="event.event_type === EventTypesEnum.START_GAME" class="event-content start-game">
           <v-icon name="md-sports" scale="1.5" class="event-icon" />
           <span>Spiel gestartet</span>
         </div>
 
         <!-- START_HALFTIME event -->
-        <div v-else-if="event.event_type === EventTypes.START_HALFTIME" class="event-content halftime">
+        <div v-else-if="event.event_type === EventTypesEnum.START_HALFTIME" class="event-content halftime">
           <v-icon name="md-sports" scale="1.5" class="event-icon" />
           <span>Halbzeit</span>
         </div>
 
         <!-- END_GAME event -->
-        <div v-else-if="event.event_type === EventTypes.END_GAME" class="event-content end-game">
+        <div v-else-if="event.event_type === EventTypesEnum.END_GAME" class="event-content end-game">
           <v-icon name="md-sports" scale="1.5" class="event-icon" />
           <span>Spiel beendet</span>
         </div>
 
         <!-- GOAL event -->
-        <div v-else-if="event.event_type === EventTypes.GOAL" class="event-content goal">
+        <div v-else-if="event.event_type === EventTypesEnum.GOAL" class="event-content goal">
           <v-icon name="md-sportssoccer-round" scale="1.5" class="event-icon goal-icon" />
           <div class="goal-details">
             <span class="player-name">{{ event.player_name }}</span>
@@ -203,13 +229,13 @@ onUnmounted(() => {
         </div>
 
         <!-- YELLOW_CARD event -->
-        <div v-else-if="event.event_type === EventTypes.YELLOW_CARD" class="event-content yellow-card">
+        <div v-else-if="event.event_type === EventTypesEnum.YELLOW_CARD" class="event-content yellow-card">
           <div class="card yellow"></div>
           <span class="player-name">{{ event.player_name }}</span>
         </div>
 
         <!-- RED_CARD event -->
-        <div v-else-if="event.event_type === EventTypes.RED_CARD" class="event-content red-card">
+        <div v-else-if="event.event_type === EventTypesEnum.RED_CARD" class="event-content red-card">
           <div class="card red"></div>
           <span class="player-name">{{ event.player_name }}</span>
         </div>
@@ -219,6 +245,14 @@ onUnmounted(() => {
           <v-icon name="bi-chat-text-fill" scale="1.5" class="event-icon" />
           <span>{{ event.text || 'Ereignis' }}</span>
         </div>
+
+        <button
+            @click="deleteEvent(event)"
+            class="delete-button"
+            title="Event löschen"
+        >
+          <v-icon name="md-delete" scale="1.2" />
+        </button>
       </div>
     </div>
     <div v-else class="no-events">
@@ -236,10 +270,10 @@ onUnmounted(() => {
     <template v-slot:body>
       <div class="modal-content">
         <div class="button-row">
-          <button v-if="tickerState === 'not_started'"  @click="triggerEvent(EventTypes.START_GAME)" class="modal-button rounded-full bg-primary">
+          <button v-if="tickerState === 'not_started'"  @click="triggerEvent(EventTypesEnum.START_GAME)" class="modal-button rounded-full bg-primary">
             <v-icon name="md-sports" class="btn-icon-color" scale="2" />
           </button>
-          <button @click="triggerEvent(EventTypes.GOAL)" class="modal-button rounded-full bg-primary">
+          <button @click="triggerEvent(EventTypesEnum.GOAL)" class="modal-button rounded-full bg-primary">
             <v-icon name="md-sportssoccer-round" class="btn-icon-color" scale="2" />
           </button>
           <button @click="triggerEvent('specific')" class="modal-button rounded-full bg-primary">
