@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 export default {
   mode: "jit",
   darkMode: 'class',
@@ -17,4 +18,3 @@ export default {
   },
   plugins: [],
 }
-
