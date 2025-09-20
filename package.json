@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@vue/test-utils": "^2.4.6",
-    "axios": "^1.7.7",
+    "axios": "^1.12.0",
     "jsdom": "^25.0.1",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.2.6",
