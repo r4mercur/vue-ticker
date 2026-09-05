@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --surface: 255 255 255;
+    --surface-alt: 243 244 246;
+    --on-surface: 32 34 37;
+    --border: 226 232 240;
+}
+
+.dark {
+    --surface: 32 34 37;
+    --surface-alt: 24 25 27;
+    --on-surface: 243 244 246;
+    --border: 55 65 81;
+}
+
+@theme {
+    --color-primary: #202225;
+    --color-secondary: #5865f2;
+    --color-background: #f3f4f6;
+    --color-surface: rgb(var(--surface));
+    --color-surface-alt: rgb(var(--surface-alt));
+    --color-on-surface: rgb(var(--on-surface));
+    --color-border-subtle: rgb(var(--border));
+}
+
 @layer components {
     .body {
         @apply flex flex-col items-center justify-center h-screen w-screen

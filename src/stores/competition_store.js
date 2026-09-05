@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { api_information } from "@/stores/index.js";
+import { api_v1_url } from "@/stores/index.js";
 
-const url = api_information.url;
+const url = api_v1_url;
 
 export const useCompetitionStore = defineStore('competition', {
     state: () => ({
@@ -29,7 +29,7 @@ export const useCompetitionStore = defineStore('competition', {
             })
         },
         async fetchTeamsByCompetitionId(competitionId) {
-            axios.get(url + '/api/competitions/' + competitionId + '/teams').then(response => {
+            axios.get(url + '/competitions/' + competitionId + '/teams').then(response => {
                 this.setTeams(response.data);
             }).catch(error => {
                 console.log(error);

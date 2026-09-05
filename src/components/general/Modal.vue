@@ -16,10 +16,10 @@ const props = defineProps({
   <transition>
     <div class="modal__mask">
       <div class="modal__wrapper">
-        <div class="modal__container">
+        <div class="modal__container bg-surface text-on-surface">
           <div class="modal__header">
             <slot name="header"> default header </slot>
-            <div class="modal__header__close" @click="emit('close')"></div>
+            <div class="modal__header__close dark:invert" @click="emit('close')"></div>
           </div>
 
           <div class="modal__body">
@@ -29,10 +29,8 @@ const props = defineProps({
           <div v-if="!props.disableFooter" class="modal__footer">
             <slot name="footer">
               <div class="flex flex-col items-center m-6">
-                <button id="save" @click="emit('confirm')" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-                  <span class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    {{ props.text }}
-                  </span>
+                <button id="save" @click="emit('confirm')" class="cursor-pointer w-full px-5 py-2.5 text-sm font-medium text-gray-900 rounded-lg bg-gradient-to-br from-teal-300 to-lime-300 hover:from-teal-400 hover:to-lime-400 transition-colors focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+                  {{ props.text }}
                 </button>
               </div>
             </slot>
@@ -80,12 +78,12 @@ $breakpoint-lg: 1200px;
     max-height: calc(100vh - 64px);
     overflow-y: scroll;
     padding: 24px;
-    background: #fff;
     box-shadow: 0 12px 16px 0 rgba(#202225, .08), 0 4px 12px 0 rgba(#202225, .04);
     border-radius: 12px 12px 0 0;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
 
     @media screen and (min-width: $breakpoint-sm) {
-      width: 1000px;
+      width: min(1000px, 92vw);
       max-height: calc(100vh - 128px);
       margin: 0 auto;
       border-radius: 12px;
@@ -98,7 +96,6 @@ $breakpoint-lg: 1200px;
     font-size: 32px;
     line-height: 36px;
     font-weight: 500;
-    color: #202225;
     padding-top: 17px;
 
     @media screen and (min-width: $breakpoint-sm) {
@@ -188,7 +185,7 @@ $breakpoint-lg: 1200px;
       left: 0;
       width: 100%;
       height: calc(100% + 24px);
-      background-image: linear-gradient(180deg, rgba(#fff, 0) 0%, #fff 50%, #fff 100%);
+      background-image: linear-gradient(180deg, rgb(var(--surface) / 0) 0%, rgb(var(--surface)) 50%, rgb(var(--surface)) 100%);
 
       @media screen and (min-width: $breakpoint-sm) {
         bottom: -40px;

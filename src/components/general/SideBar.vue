@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import SideBarIcon from "./SideBarIcon.vue";
+import ThemeToggle from "./ThemeToggle.vue";
 import useUserStore from "@/stores/user_store.js";
 import router from "../../router";
 import axios from "axios";
-import { api_information } from "@/stores";
+import { api_v1_url } from "@/stores";
 
-const url = api_information.url;
+const url = api_v1_url;
 const store = useUserStore();
 
 let logout = () => {
-  axios.post(url + "/api/logout", store.user).then((response) => {
+  axios.post(url + "/logout", store.user).then((response) => {
     console.log(response);
     store.logout();
     router.push("/login");
@@ -44,7 +45,8 @@ let logout = () => {
     </router-link>
     -->
 
-    <side-bar-icon id="logout" class="fixed right-0" :icon="'co-account-logout'" :text="'Logout 💡'" @click="logout()" />
+    <theme-toggle class="ml-auto self-center mr-4" />
+    <side-bar-icon id="logout" :icon="'co-account-logout'" :text="'Logout 💡'" @click="logout()" />
   </div>
 
   <div v-else class="fixed top-0 left-0 w-screen m-auto
@@ -55,5 +57,6 @@ let logout = () => {
     <router-link to="/register">
       <side-bar-icon :icon="'bi-chevron-double-right'" :text="'Register 💡'" />
     </router-link>
+    <theme-toggle class="ml-auto self-center mr-4" />
   </div>
 </template>

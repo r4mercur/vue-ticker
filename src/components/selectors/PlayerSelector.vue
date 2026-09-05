@@ -36,31 +36,31 @@ const selectPlayerForAssist = (player) => {
 </script>
 
 <template>
-  <div class="player-selector">
-    <div class="selector-section">
-      <h3 class="section-title">Torschütze auswählen</h3>
-      <div class="team-section">
-        <h4 class="team-title">Heimteam</h4>
-        <div class="players-list">
-          <button 
-            v-for="player in homePlayers" 
+  <div class="flex flex-col gap-6 w-full">
+    <div class="border border-border-subtle rounded-lg p-4 bg-surface-alt">
+      <h3 class="text-xl font-semibold mb-4 text-center text-on-surface">Torschütze auswählen</h3>
+      <div class="mb-4">
+        <h4 class="text-base font-medium mb-2 text-on-surface/70">Heimteam</h4>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="player in homePlayers"
             :key="player.id"
-            class="player-button"
-            :class="{ 'selected': selectedPlayer && selectedPlayer.id === player.id }"
+            class="px-4 py-2 rounded transition-all bg-surface text-on-surface hover:bg-border-subtle"
+            :class="{ '!bg-emerald-500 !text-white': selectedPlayer && selectedPlayer.id === player.id }"
             @click="selectPlayer(player)"
           >
             {{ player.name }}
           </button>
         </div>
       </div>
-      <div class="team-section">
-        <h4 class="team-title">Auswärtsteam</h4>
-        <div class="players-list">
-          <button 
-            v-for="player in awayPlayers" 
+      <div>
+        <h4 class="text-base font-medium mb-2 text-on-surface/70">Auswärtsteam</h4>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="player in awayPlayers"
             :key="player.id"
-            class="player-button"
-            :class="{ 'selected': selectedPlayer && selectedPlayer.id === player.id }"
+            class="px-4 py-2 rounded transition-all bg-surface text-on-surface hover:bg-border-subtle"
+            :class="{ '!bg-emerald-500 !text-white': selectedPlayer && selectedPlayer.id === player.id }"
             @click="selectPlayer(player)"
           >
             {{ player.name }}
@@ -69,30 +69,30 @@ const selectPlayerForAssist = (player) => {
       </div>
     </div>
 
-    <div class="selector-section">
-      <h3 class="section-title">Vorlage auswählen (optional)</h3>
-      <div class="team-section">
-        <h4 class="team-title">Heimteam</h4>
-        <div class="players-list">
-          <button 
-            v-for="player in homePlayers" 
+    <div class="border border-border-subtle rounded-lg p-4 bg-surface-alt">
+      <h3 class="text-xl font-semibold mb-4 text-center text-on-surface">Vorlage auswählen (optional)</h3>
+      <div class="mb-4">
+        <h4 class="text-base font-medium mb-2 text-on-surface/70">Heimteam</h4>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="player in homePlayers"
             :key="player.id"
-            class="player-button"
-            :class="{ 'selected': selectedPlayerForAssist && selectedPlayerForAssist.id === player.id }"
+            class="px-4 py-2 rounded transition-all bg-surface text-on-surface hover:bg-border-subtle"
+            :class="{ '!bg-emerald-500 !text-white': selectedPlayerForAssist && selectedPlayerForAssist.id === player.id }"
             @click="selectPlayerForAssist(player)"
           >
             {{ player.name }}
           </button>
         </div>
       </div>
-      <div class="team-section">
-        <h4 class="team-title">Auswärtsteam</h4>
-        <div class="players-list">
-          <button 
-            v-for="player in awayPlayers" 
+      <div>
+        <h4 class="text-base font-medium mb-2 text-on-surface/70">Auswärtsteam</h4>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="player in awayPlayers"
             :key="player.id"
-            class="player-button"
-            :class="{ 'selected': selectedPlayerForAssist && selectedPlayerForAssist.id === player.id }"
+            class="px-4 py-2 rounded transition-all bg-surface text-on-surface hover:bg-border-subtle"
+            :class="{ '!bg-emerald-500 !text-white': selectedPlayerForAssist && selectedPlayerForAssist.id === player.id }"
             @click="selectPlayerForAssist(player)"
           >
             {{ player.name }}
@@ -102,62 +102,3 @@ const selectPlayerForAssist = (player) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.player-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.selector-section {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background-color: #f8fafc;
-}
-
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #334155;
-  text-align: center;
-}
-
-.team-section {
-  margin-bottom: 1rem;
-}
-
-.team-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #64748b;
-}
-
-.players-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.player-button {
-  padding: 0.5rem 1rem;
-  background-color: #e2e8f0;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.player-button:hover {
-  background-color: #cbd5e1;
-}
-
-.player-button.selected {
-  background-color: #10b981;
-  color: white;
-}
-</style>

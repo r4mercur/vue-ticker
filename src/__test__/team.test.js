@@ -3,9 +3,9 @@ import { vitest } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import axios from "axios";
 import {createPinia} from "pinia";
-import { api_information } from "@/stores/index.js";
+import { api_v1_url } from "@/stores/index.js";
 
-const url = api_information.url;
+const url = api_v1_url;
 
 vitest.mock("axios");
 vitest.mock("@/router/index.js");

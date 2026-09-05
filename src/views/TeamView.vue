@@ -3,9 +3,11 @@ import BackendSideBar from "@/components/general/BackendSideBar.vue";
 import {onMounted, ref, computed} from "vue";
 import axios from "axios";
 import Modal from "@/components/general/Modal.vue";
-import { api_information } from "@/stores/index.js";
+import { api_information, api_v1_url } from "@/stores/index.js";
+import { TEAM_LOGO_PLACEHOLDER } from "@/helpers/index.js";
 
-const url = api_information.url;
+const url = api_v1_url;
+const assetBaseUrl = api_information.url;
 let teams = ref();
 let show_modal = ref(false);
 let modal_team = ref();
@@ -93,7 +95,7 @@ let uploadTeamLogo = (event) => {
   let file = event.target.files[0];
   reader.readAsDataURL(file);
   reader.onload = () => {
-    axios.post(url + `/api/teams/${modal_team.value.id}/upload_logo`, {
+    axios.post(url + `/teams/${modal_team.value.id}/upload_logo`, {
       "id": modal_team.value.id,
       "logo": reader.result,
     }).then(() => {
@@ -159,7 +161,7 @@ onMounted(() => {
           <tr v-for="team in teams_with_ids" :key="team.id">
             <td class="border border-slate-500 text-center">{{ team.id }}</td>
             <td class="border border-slate-500 text-center">
-              <img :src="url + '/images/team_' + team.id + '.png?' + image_update_key" class="w-16 h-16 m-auto" alt="" />
+              <img :src="assetBaseUrl + '/images/team_' + team.id + '.png?' + image_update_key" @error="(e) => e.target.src = TEAM_LOGO_PLACEHOLDER" class="w-16 h-16 m-auto object-contain" alt="" />
             </td>
             <td class="border border-slate-500 pl-2">{{ team.name }}</td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>
@@ -207,15 +209,15 @@ onMounted(() => {
       <div id="modal" class="flex flex-col space-y-4">
         <div class="flex flex-col space-y-2">
           <label for="name">Name</label>
-          <input v-model="modal_team.name" type="text" id="name" name="name" class="border border-slate-500 rounded-md p-2" />
+          <input v-model="modal_team.name" type="text" id="name" name="name" class="w-full bg-surface-alt text-on-surface border border-border-subtle rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-secondary" />
         </div>
         <div class="flex flex-col space-y-2">
           <label for="shortname">Abkürzung</label>
-          <input v-model="modal_team.shortname" type="text" id="shortname" name="shortname" class="border border-slate-500 rounded-md p-2" />
+          <input v-model="modal_team.shortname" type="text" id="shortname" name="shortname" class="w-full bg-surface-alt text-on-surface border border-border-subtle rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-secondary" />
         </div>
         <div v-if="modal_team.id" class="flex flex-col space-y-2">
           <label for="logo">Teamlogo</label>
-          <input type="file" id="logo" name="logo" class="border border-slate-500 rounded-md p-2" accept="image/*"
+          <input type="file" id="logo" name="logo" class="w-full bg-surface-alt text-on-surface border border-border-subtle rounded-md p-2" accept="image/*"
                 v-on:change="uploadTeamLogo"/>
         </div>
       </div>

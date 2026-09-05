@@ -103,7 +103,7 @@ onMounted(() => {
         <div class="flex flex-col space-y-4">
           <div class="flex flex-col space-y-2">
             <label for="name">Name</label>
-            <input v-model="modal_competition.name" type="text" id="name" name="name" class="w-full p-2 border border-slate-500 rounded-lg" />
+            <input v-model="modal_competition.name" type="text" id="name" name="name" class="w-full p-2 bg-surface-alt text-on-surface border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary" />
           </div>
         </div>
       </template>

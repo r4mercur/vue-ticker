@@ -4,10 +4,10 @@ import { useUserStore } from "@/stores/user_store.js";
 import router from "../../router/index.js";
 import axios from "axios";
 import SideBar from "@/components/general/SideBar.vue";
-import {api_information} from "@/stores/index.js"
+import {api_v1_url} from "@/stores/index.js"
 
 const store = useUserStore();
-const url = api_information.url;
+const url = api_v1_url;
 
 const showMessage = ref(false);
 const message = ref("");
@@ -18,7 +18,7 @@ let login_data = ref({
 });
 let login = () => {
   console.log("login");
-  axios.post(url + "/api/login", login_data.value)
+  axios.post(url + "/login", login_data.value)
     .then((response) => {
       console.log(response);
       store.setUser(response.data.user);
@@ -52,17 +52,17 @@ onMounted(() => {
   <!-- content -->
   <div v-if="store.user === null" class="mt-16">
     <h1 class="text-4xl text-center font-bold pt-4">Login</h1>
-    <form @submit.prevent="login()" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+    <form @submit.prevent="login()" class="w-full max-w-sm sm:max-w-md px-4 mx-auto">
       <div class="pb-2 pt-4">
         <input v-model="login_data.email" type="email"
-               name="email" id="email" placeholder="Email" class="block w-full p-4 rounded-sm bg-primary text-secondary">
+               name="email" id="email" placeholder="Email" class="block w-full p-4 rounded-sm bg-surface-alt text-on-surface border border-border-subtle focus:outline-none focus:ring-2 focus:ring-secondary">
       </div>
       <div class="pb-2 pt-4">
-        <input v-model="login_data.password" class="block w-full p-4 rounded-sm bg-primary text-secondary" type="password"
+        <input v-model="login_data.password" class="block w-full p-4 rounded-sm bg-surface-alt text-on-surface border border-border-subtle focus:outline-none focus:ring-2 focus:ring-secondary" type="password"
                name="password" id="password" placeholder="Password">
       </div>
       <div class="px-4 pb-2 pt-4">
-        <button type="submit" class="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">Login</button>
+        <button type="submit" class="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none cursor-pointer">Login</button>
       </div>
     </form>
   </div>

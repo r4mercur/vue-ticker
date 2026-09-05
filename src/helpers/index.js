@@ -33,6 +33,12 @@ export const EventTypeLabels = {
     7: 'TEXT'
 };
 
+export const TEAM_LOGO_PLACEHOLDER = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%239ca3af'/%3E%3Cpath d='M24 12a6 6 0 100 12 6 6 0 000-12zM12 38c0-6.6 5.4-12 12-12s12 5.4 12 12' fill='%23ffffff'/%3E%3C/svg%3E";
+
+export function teamLogoSrc(url) {
+    return url && url.trim() !== "" ? url : TEAM_LOGO_PLACEHOLDER;
+}
+
 export class Stopwatch {
     constructor() {
         this.time = 0;

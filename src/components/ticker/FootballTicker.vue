@@ -4,16 +4,16 @@ import LeagueSelector from "@/components/games/LeagueSelector.vue";
 import Modal from "@/components/general/Modal.vue";
 import {ref, watch, onMounted} from "vue";
 import axios from "axios";
-import { formatDateToGermanTimeFormat } from "@/helpers/index.js";
+import { formatDateToGermanTimeFormat, teamLogoSrc, TEAM_LOGO_PLACEHOLDER } from "@/helpers/index.js";
 import user_store from "@/stores/user_store.js";
 import { useCompetitionStore } from "@/stores/competition_store.js";
-import { api_information } from "@/stores/index.js";
+import { api_v1_url } from "@/stores/index.js";
 import TickerList from "@/components/ticker/TickerList.vue";
 import GameDaySelector from "@/components/games/GameDaySelector.vue";
 
 const user = user_store();
 const competition_store = useCompetitionStore();
-const url = api_information.url;
+const url = api_v1_url;
 
 // data
 let show_modal = ref(false);
@@ -29,14 +29,14 @@ let fetchGamesByCompetitionId = (competition_id, gameday) => {
     return;
   }
 
-  axios.get(url + `/api/competitions/${competition_id}/games/${gameday}`).then((response) => {
+  axios.get(url + `/competitions/${competition_id}/games/${gameday}`).then((response) => {
     matches.value = response.data;
   }).catch((error) => {
     console.log(error);
   });
 };
 let fetchLivetickersByUserId = (user_id) => {
-  axios.get(url + `/api/users/${user_id}/tickers`).then((response) => {
+  axios.get(url + `/users/${user_id}/tickers`).then((response) => {
     livetickers.value = response.data;
   }).catch((error) => {
     console.log(error);
@@ -86,9 +86,9 @@ let addOrRemoveToSelected = (match) => {
 };
 let setCSSClass = (match) => {
   if (selected_matches.value.includes(match)) {
-    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg checked";
+    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg bg-surface-alt transition-colors checked";
   } else {
-    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg";
+    return "shadow-md m-6 mb-8 p-6 cursor-pointer rounded-lg bg-surface-alt hover:ring-2 hover:ring-secondary/50 transition-colors";
   }
 };
 let deleteTicker = (tickerId) => {
@@ -124,28 +124,28 @@ onMounted(() => {
   <side-bar class="custom-v-index"/>
 
   <!-- content -->
-  <div class="mt-16 mx-4 space-y-4 flex flex-col z-1 custom-z-index">
-    <LeagueSelector @changed_competition="retrieveCompetitionId" />
+  <div class="mt-24 px-6 sm:px-10 space-y-6 flex flex-col z-1 custom-z-index">
+    <h1 class="text-3xl font-bold text-on-surface">Fußball Ticker</h1>
 
-    <GameDaySelector @changed_game_day="retrieveGameDay" />
+    <div class="grid grid-cols-1 sm:grid-cols-[2fr_2fr_1fr] items-end gap-4">
+      <LeagueSelector @changed_competition="retrieveCompetitionId" />
 
-    <div class="m-auto">
-      <button v-if="matches.length > 0" @click="openModal" class="text-gray-900 hover:text-white border border-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary dark:text-primary">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75  hover:text-white  rounded-md">
-          Ticker anlegen
-        </span>
+      <GameDaySelector @changed_game_day="retrieveGameDay" />
+
+      <button v-if="matches.length > 0" @click="openModal" class="cursor-pointer w-full text-gray-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-gradient-to-br from-teal-300 to-lime-300 hover:from-teal-400 hover:to-lime-400 transition-colors focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+        Ticker anlegen
       </button>
+    </div>
 
-      <div v-if="matches.length === 0">
-        <p>
-          Hier können Sie Ticker erstellen, um Spiele live zu verfolgen. <br />
-          Bitte lege erst ein Spiel an, bevor du einen Ticker erstellst. <br /><br />
+    <div v-if="matches.length === 0">
+      <p class="text-on-surface">
+        Hier können Sie Ticker erstellen, um Spiele live zu verfolgen. <br />
+        Bitte lege erst ein Spiel an, bevor du einen Ticker erstellst. <br /><br />
 
-          <router-link to="/matches" class="text-primary underline">
-            Hier geht es zu den Spielen.
-          </router-link>
-        </p>
-      </div>
+        <router-link to="/matches" class="text-secondary underline">
+          Hier geht es zu den Spielen.
+        </router-link>
+      </p>
     </div>
 
     <!-- list component -->
@@ -163,7 +163,7 @@ onMounted(() => {
         <div v-for="match in matches" :key="match.id" :class="setCSSClass(match)">
           <!-- date -->
           <div class="text-center mb-0.5 p6">
-            <span class="whitespace-nowrap text-center font-bold text-primary">
+            <span class="whitespace-nowrap text-center font-bold text-on-surface">
                 {{ formatDateToGermanTimeFormat(match.date, true) }}
             </span>
           </div>
@@ -171,23 +171,23 @@ onMounted(() => {
           <!-- grid -->
           <div class="grid grid-cols-7 pr-12 pl-12" @click="addOrRemoveToSelected(match)">
             <div class="col-span-2 m-auto text-center pt-4">
-              <span class="text-primary">
+              <span class="text-on-surface">
                 {{ match.team_home.name }}
               </span>
             </div>
             <div>
-              <img :src="match.team_home.logo_url" class="w-18 h-18" :alt="match.team_home.name">
+              <img :src="teamLogoSrc(match.team_home.logo_url)" @error="(e) => e.target.src = TEAM_LOGO_PLACEHOLDER" class="w-18 h-18 object-contain" :alt="match.team_home.name">
             </div>
             <div class="text-center m-auto">
-              <span class="font-bold text-primary">
+              <span class="font-bold text-on-surface">
                 vs.
               </span>
             </div>
             <div>
-              <img :src="match.team_away.logo_url" class="w-18 h-18" :alt="match.team_away.name">
+              <img :src="teamLogoSrc(match.team_away.logo_url)" @error="(e) => e.target.src = TEAM_LOGO_PLACEHOLDER" class="w-18 h-18 object-contain" :alt="match.team_away.name">
             </div>
             <div class="col-span-2 m-auto text-center">
-              <span class="text-primary">
+              <span class="text-on-surface">
                 {{ match.team_away.name }}
               </span>
             </div>
@@ -195,7 +195,7 @@ onMounted(() => {
         </div>
 
         <div v-if="matches.length === 0">
-          <p>
+          <p class="text-on-surface">
             Es sind keine Spiele vorhanden.
           </p>
         </div>

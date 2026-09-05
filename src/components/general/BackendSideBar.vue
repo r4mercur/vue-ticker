@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import user_store from "@/stores/user_store.js";
 import router from "@/router/index.js";
 import SideBarIcon from "@/components/general/SideBarIcon.vue";
+import ThemeToggle from "@/components/general/ThemeToggle.vue";
 
 const user = user_store();
 
@@ -21,6 +22,7 @@ onMounted(() => {
     <router-link to="/competitions">
       <side-bar-icon icon="hi-shield-check" text="Competitions 💡" />
     </router-link>
+    <theme-toggle class="ml-auto self-center mr-4" />
   </div>
 </template>
 

@@ -3,18 +3,17 @@
 import SideBar from "@/components/general/SideBar.vue";
 import MatchList from "@/components/games/GameList.vue";
 import {onMounted, ref} from "vue";
-import {api_information} from "@/stores/index.js";
+import {api_v1_url} from "@/stores/index.js";
 import axios from "axios";
-import {Ref} from "vue";
 
-const apiUrl = api_information.url;
+const apiUrl = api_v1_url;
 
 // data
 let games= ref([]);
 
 // methods
 let fetchGames = async () => {
-  axios.get(apiUrl + `/api/games`).then((response) => {
+  axios.get(apiUrl + `/games`).then((response) => {
     games.value = response.data;
   }).catch((error) => {
     console.log(error);

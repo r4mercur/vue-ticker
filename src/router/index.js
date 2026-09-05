@@ -76,7 +76,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     if (to.matched.some((record) => record.meta.authRequired)) {
-        if (userStore.user === undefined) {
+        if (userStore.user === null || userStore.user === undefined) {
             next({
                 path: "/login",
             });

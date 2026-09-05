@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { api_information } from "@/stores/index.js";
+import { api_v1_url } from "@/stores/index.js";
 import {useRoute} from "vue-router";
 import {onMounted, onUnmounted, ref} from "vue";
 import SideBar from "@/components/general/SideBar.vue";
@@ -11,7 +11,7 @@ import CardModal from "@/components/events/CardModal.vue";
 import TextModal from "@/components/events/TextModal.vue";
 import useUserStore from "@/stores/user_store.js";
 
-const url = api_information.url;
+const url = api_v1_url;
 const route = useRoute();
 const stopwatch = new Stopwatch();
 
@@ -305,7 +305,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 200px;
-  background-color: #333;
+  background-color: rgb(var(--surface-alt));
 }
 
 .ticker-view {
@@ -313,8 +313,8 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #333;
-  color: white;
+  background-color: rgb(var(--surface-alt));
+  color: rgb(var(--on-surface));
   max-height: 125px;
   padding-top: 65px;
 }
@@ -335,7 +335,8 @@ onUnmounted(() => {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: rgb(var(--surface));
+  color: rgb(var(--on-surface));
   padding: 20px;
   border-radius: 8px;
   text-align: center;
@@ -361,22 +362,32 @@ onUnmounted(() => {
 /* Event list styles */
 .events-list {
   margin-top: 150px;
-  padding: 20px;
+  padding: 12px;
+  width: 92%;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #f5f5f5;
+  background-color: rgb(var(--surface-alt));
+  color: rgb(var(--on-surface));
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 100px;
 }
 
+@media screen and (min-width: 640px) {
+  .events-list {
+    padding: 20px;
+    width: 100%;
+  }
+}
+
 .event-item {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   padding: 12px;
   margin-bottom: 10px;
-  background-color: white;
+  background-color: rgb(var(--surface));
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
@@ -384,7 +395,7 @@ onUnmounted(() => {
 .event-time {
   min-width: 60px;
   font-weight: bold;
-  color: #666;
+  color: rgb(var(--on-surface) / 0.6);
   margin-right: 15px;
 }
 
@@ -413,7 +424,7 @@ onUnmounted(() => {
 
 .assist {
   font-size: 0.9em;
-  color: #666;
+  color: rgb(var(--on-surface) / 0.6);
   margin-top: 3px;
 }
 
@@ -433,13 +444,13 @@ onUnmounted(() => {
 }
 
 .start-game, .halftime, .end-game {
-  color: #4b5563;
+  color: rgb(var(--on-surface) / 0.75);
 }
 
 .no-events {
   text-align: center;
   padding: 20px;
-  color: #6b7280;
+  color: rgb(var(--on-surface) / 0.6);
   font-style: italic;
 }
 </style>
