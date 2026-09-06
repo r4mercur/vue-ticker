@@ -35,7 +35,8 @@ test("Logout function __test__", async () => {
 
   store.setUser(user);
 
-  // Set up the axios.post mock before the component is mounted
+  // Set up the axios mocks before the component is mounted
+  axios.get.mockResolvedValue({ data: [] }); // HomeView's dashboard fetches (games/tickers)
   axios.post.mockResolvedValueOnce({ data: { status: "Logged out successfully" } });
   router.push.mockImplementation(() => {}); // Mock the router push function
 
@@ -48,9 +49,7 @@ test("Logout function __test__", async () => {
   await flushPromises();
   await nextTick();
 
-  const sidebarIcons = wrapper.findAllComponents({ name: 'side-bar-icon' });
-  const logoutButton = sidebarIcons[sidebarIcons.length - 1];
-  await logoutButton.trigger("click");
+  await wrapper.find("#logout").trigger("click");
 
   expect(axios.post).toHaveBeenCalledWith(url + "/logout", user);
   expect(router.push).toHaveBeenCalledWith("/login");

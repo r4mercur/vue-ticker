@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { useUserStore } from "@/stores/user_store.js";
 import router from "../../router/index.js";
 import axios from "axios";
-import SideBar from "@/components/general/SideBar.vue";
+import AppHeader from "@/components/general/AppHeader.vue";
 import { api_v1_url } from "@/stores/index.js";
 
 const store = useUserStore();
@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <side-bar />
+  <app-header />
 
   <!-- content -->
   <div v-if="store.user === null" class="mt-16">

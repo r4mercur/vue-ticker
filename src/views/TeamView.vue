@@ -1,5 +1,5 @@
 <script setup>
-import BackendSideBar from "@/components/general/BackendSideBar.vue";
+import AppHeader from "@/components/general/AppHeader.vue";
 import {onMounted, ref, computed} from "vue";
 import axios from "axios";
 import Modal from "@/components/general/Modal.vue";
@@ -141,7 +141,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BackendSideBar />
+  <AppHeader />
 
   <div class="mt-16 mx-4 space-y-4 flex flex-col">
     <div class="m-auto p-6 w-full">
@@ -163,7 +163,9 @@ onMounted(() => {
             <td class="border border-slate-500 text-center">
               <img :src="assetBaseUrl + '/images/team_' + team.id + '.png?' + image_update_key" @error="(e) => e.target.src = TEAM_LOGO_PLACEHOLDER" class="w-16 h-16 m-auto object-contain" alt="" />
             </td>
-            <td class="border border-slate-500 pl-2">{{ team.name }}</td>
+            <td class="border border-slate-500 pl-2">
+              <router-link :to="`/teams/${team.id}`" class="hover:underline hover:text-secondary">{{ team.name }}</router-link>
+            </td>
             <td class="border border-slate-500 pl-2">{{ team.shortname }}</td>
             <td class="border border-slate-500 text-center">{{ team.created_at }}</td>
             <td class="border border-r-0 border-slate-500">

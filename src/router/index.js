@@ -19,6 +19,14 @@ const routes = [
         },
     },
     {
+        path: "/teams/:id",
+        name: "TeamDetail",
+        component: () => import("@/views/TeamDetailView.vue"),
+        meta: {
+            authRequired: true,
+        },
+    },
+    {
         path: "/competitions",
         name: "Competitions",
         component: () => import("@/views/CompetitionView.vue"),
@@ -65,7 +73,15 @@ const routes = [
 		meta: {
 			authRequired: true,
 		},
-	}
+	},
+    {
+        path: "/live/:slug",
+        name: "PublicTicker",
+        component: () => import("@/views/PublicTickerView.vue"),
+        meta: {
+            authRequired: false,
+        },
+    },
 ];
 
 const router = createRouter({

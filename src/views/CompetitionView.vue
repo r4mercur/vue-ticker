@@ -1,6 +1,6 @@
 <script setup>
 
-import BackendSideBar from "@/components/general/BackendSideBar.vue";
+import AppHeader from "@/components/general/AppHeader.vue";
 import {computed, onMounted, ref} from "vue";
 import { useCompetitionStore } from "@/stores/competition_store.js";
 import Modal from "@/components/general/Modal.vue";
@@ -56,7 +56,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BackendSideBar />
+  <AppHeader />
 
   <div class="mt-16 mx-4 space-y-4 flex flex-col">
     <div class="m-auto p-6 w-full">

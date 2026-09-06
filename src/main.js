@@ -14,13 +14,15 @@ axios.defaults.withCredentials = true;
 // icons
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    HiShieldCheck, CoAccountLogout, MdModeeditOutlined, MdDeleteOutlined, FcPlus, MdSports, MdSportssoccerRound,
-    BiChatTextFill, MdDelete}
+import { IoFootballSharp, MdModeeditOutlined, MdDeleteOutlined, FcPlus, MdSports, MdSportssoccerRound,
+    BiChatTextFill, MdDelete, MdAdd, MdGroups, MdEmojievents, MdChevronright, MdSwaphoriz, MdMedicalservices,
+    MdAccesstime, MdSync, MdClose, MdPause, MdPlayarrow, MdSportsscore, MdSend, MdContentcopy, MdCheck,
+    MdSportssoccer}
 from "oh-vue-icons/icons";
-addIcons(IoFootballSharp, MdSportshandball, CoTennis, CoBasketball, GiHockey, HiLogin, BiChevronDoubleRight,
-    CoAccountLogout, HiShieldCheck, MdModeeditOutlined, MdDeleteOutlined, FcPlus, MdSports, MdSportssoccerRound,
-    BiChatTextFill , MdDelete);
+addIcons(IoFootballSharp, MdModeeditOutlined, MdDeleteOutlined, FcPlus, MdSports, MdSportssoccerRound,
+    BiChatTextFill , MdDelete, MdAdd, MdGroups, MdEmojievents, MdChevronright, MdSwaphoriz, MdMedicalservices,
+    MdAccesstime, MdSync, MdClose, MdPause, MdPlayarrow, MdSportsscore, MdSend, MdContentcopy, MdCheck,
+    MdSportssoccer);
 
 // theme
 useTheme().initTheme();

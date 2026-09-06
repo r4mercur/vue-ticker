@@ -1,5 +1,5 @@
 <script setup>
-import SideBar from "@/components/general/SideBar.vue";
+import AppHeader from "@/components/general/AppHeader.vue";
 import LeagueSelector from "@/components/games/LeagueSelector.vue";
 import Modal from "@/components/general/Modal.vue";
 import {ref, watch, onMounted} from "vue";
@@ -121,7 +121,7 @@ onMounted(() => {
 
 <template>
 
-  <side-bar class="custom-v-index"/>
+  <app-header class="custom-v-index"/>
 
   <!-- content -->
   <div class="mt-24 px-6 sm:px-10 space-y-6 flex flex-col z-1 custom-z-index">
